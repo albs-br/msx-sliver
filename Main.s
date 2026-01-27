@@ -72,7 +72,7 @@ Execute:
     ld 		(BIOS_FORCLR), a    
     ld 		a, 1  		            ; Background color
     ld 		(BIOS_BAKCLR), a     
-    ld 		a, 14      	            ; Border color
+    ld 		a, 9       	            ; Border color
     ld 		(BIOS_BDRCLR), a    
     call 	BIOS_CHGCLR        		; Change Screen Color
 
@@ -118,13 +118,52 @@ Execute:
     ld		bc, 0 + (4 * 8)	            ; Block length
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
+    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		de, PATTBL + (9 * 8)        ; VRAM address (destiny)
+    ld		bc, 0 + (4 * 8)	            ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		de, PATTBL + (13 * 8)        ; VRAM address (destiny)
+    ld		bc, 0 + (4 * 8)	            ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		de, PATTBL + (17 * 8)        ; VRAM address (destiny)
+    ld		bc, 0 + (4 * 8)	            ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
 
     ; load COLTBL (first part)
-    ld		hl, Tile_Colors             ; RAM address (source)
-    ld		de, COLTBL		            ; VRAM address (destiny)
-    ld		bc, Tile_Colors.size	    ; Block length
-    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+    ; ld		hl, Tile_Colors             ; RAM address (source)
+    ; ld		de, COLTBL		            ; VRAM address (destiny)
+    ; ld		bc, Tile_Colors.size	    ; Block length
+    ; call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+    ld      a, 0xba ; foreground color (pattern bits 1), bg color (pattern bits 0)
+    ld		hl, COLTBL                  ; RAM address (source)
+    ld      bc, 5 * 8                   ; Length of the area to be written
+    call    BIOS_BIGFIL                 ; Fill VRAM with value
+
+    ld      a, 0xcb ; foreground color (pattern bits 1), bg color (pattern bits 0)
+    ld		hl, COLTBL + (5 * 8)        ; RAM address (source)
+    ld      bc, 4 * 8                   ; Length of the area to be written
+    call    BIOS_BIGFIL                 ; Fill VRAM with value
+
+    ld      a, 0xdc ; foreground color (pattern bits 1), bg color (pattern bits 0)
+    ld		hl, COLTBL + (9 * 8)        ; RAM address (source)
+    ld      bc, 4 * 8                   ; Length of the area to be written
+    call    BIOS_BIGFIL                 ; Fill VRAM with value
+
+    ld      a, 0xed ; foreground color (pattern bits 1), bg color (pattern bits 0)
+    ld		hl, COLTBL + (13 * 8)        ; RAM address (source)
+    ld      bc, 4 * 8                   ; Length of the area to be written
+    call    BIOS_BIGFIL                 ; Fill VRAM with value
+
+    ld      a, 0xfe ; foreground color (pattern bits 1), bg color (pattern bits 0)
+    ld		hl, COLTBL + (17 * 8)        ; RAM address (source)
+    ld      bc, 4 * 8                   ; Length of the area to be written
+    call    BIOS_BIGFIL                 ; Fill VRAM with value
 
 
 
@@ -224,103 +263,20 @@ Tile_Patterns_1:
     db  11111111 b
 ; .size: equ $ - Tile_Patterns
 
-Tile_Colors:
-    db  0xba ; foreground color (pattern bits 1), bg color (pattern bits 0)
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-
-; ------
-
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-
-    db  0xba 
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-
-    db  0xba 
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-
-    db  0xba 
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-    db  0xba
-
-; -------
-
-    db  0xcb 
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-
-    db  0xcb 
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-
-    db  0xcb 
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-
-    db  0xcb 
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-    db  0xcb
-
-.size: equ $ - Tile_Colors
 
 NAMTBL_Data:
     db  0
     db  1, 2, 3, 4
     db  5, 6, 7, 8
+    db  9, 10, 11, 12
+    db  13, 14, 15, 16
+    db  17, 18, 19, 20
 .size: equ $ - NAMTBL_Data
 
 Palette:   
     ; high nibble: red 0-7; low nibble: blue 0-7
     ; high nibble: 0000; low nibble:  green 0-7
+    db  0x00, 0x00      ; black
     db  0x00, 0x00      ; 
     db  0x00, 0x00      ; 
     db  0x00, 0x00      ; 
@@ -329,8 +285,7 @@ Palette:
     db  0x00, 0x00      ; 
     db  0x00, 0x00      ; 
     db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
+    db  0x77, 0x07      ; white
     
     ; 6 shades of gray
     db  0x11, 0x01      ; 
