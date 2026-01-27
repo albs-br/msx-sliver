@@ -89,7 +89,51 @@ Execute:
 
     call    Set192Lines
 
-    ; call    SetColor0ToNonTransparent
+    call    SetColor0ToNonTransparent
+
+
+
+; ------------------------------------
+
+    ; ----- Init VRAM
+
+
+    ld      hl, Palette
+    call    LoadPalette
+
+
+    ; load PATTBL (first part)
+    ld		hl, Tile_Patterns           ; RAM address (source)
+    ld		de, PATTBL		            ; VRAM address (destiny)
+    ld		bc, 0 + (1 * 8)	            ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		de, PATTBL + (1 * 8)        ; VRAM address (destiny)
+    ld		bc, 0 + (4 * 8)	            ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		de, PATTBL + (5 * 8)        ; VRAM address (destiny)
+    ld		bc, 0 + (4 * 8)	            ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+
+
+    ; load COLTBL (first part)
+    ld		hl, Tile_Colors             ; RAM address (source)
+    ld		de, COLTBL		            ; VRAM address (destiny)
+    ld		bc, Tile_Colors.size	    ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+
+
+    ; load NAMTBL (first part)
+    ld		hl, NAMTBL_Data             ; RAM address (source)
+    ld		de, NAMTBL		            ; VRAM address (destiny)
+    ld		bc, NAMTBL_Data.size	    ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
 
 
     call    BIOS_ENASCR
@@ -107,15 +151,20 @@ Execute:
 
 ; --- Main game loop
 
-; ; code from msxpen (need to set screen 0 and comment out "call    ClearVram_MSX2" above)
-;             ld hl, HelloWorld_Str
-; mainLoop:   ld a, (hl)
-;             cp 0
-;             jp z, $             ; eternal loop if end of string
-;             call BIOS_CHPUT
-;             inc hl
-;             jr mainLoop
+MainLoop:
 
+
+    ; ld      a, 10       ; palette color number
+    ; ld      hl, Color_10    ; addr of RGB color data
+    ; call    SetPaletteColor_FromAddress
+
+
+
+
+
+
+
+    jp  MainLoop
 
 
 ; ------------------------------------
@@ -127,8 +176,169 @@ End:
 
 ; ----- Data
 
-HelloWorld_Str:          db "Hello world", 0
+Tile_Patterns:
+    db  00000000 b
+    db  00000000 b
+    db  00000000 b
+    db  00000000 b
+    db  00000000 b
+    db  00000000 b
+    db  00000000 b
+    db  00000000 b
 
+Tile_Patterns_1:
+    db  10001000 b
+    db  00100010 b
+    db  10001000 b
+    db  00100010 b
+    db  10001000 b
+    db  00100010 b
+    db  10001000 b
+    db  00100010 b
+
+    db  10101010 b
+    db  01010101 b
+    db  10101010 b
+    db  01010101 b
+    db  10101010 b
+    db  01010101 b
+    db  10101010 b
+    db  01010101 b
+
+    db  01110111 b
+    db  11011101 b
+    db  01110111 b
+    db  11011101 b
+    db  01110111 b
+    db  11011101 b
+    db  01110111 b
+    db  11011101 b
+
+    db  11111111 b
+    db  11111111 b
+    db  11111111 b
+    db  11111111 b
+    db  11111111 b
+    db  11111111 b
+    db  11111111 b
+    db  11111111 b
+; .size: equ $ - Tile_Patterns
+
+Tile_Colors:
+    db  0xba ; foreground color (pattern bits 1), bg color (pattern bits 0)
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+
+; ------
+
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+
+    db  0xba 
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+
+    db  0xba 
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+
+    db  0xba 
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+    db  0xba
+
+; -------
+
+    db  0xcb 
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+
+    db  0xcb 
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+
+    db  0xcb 
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+
+    db  0xcb 
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+    db  0xcb
+
+.size: equ $ - Tile_Colors
+
+NAMTBL_Data:
+    db  0
+    db  1, 2, 3, 4
+    db  5, 6, 7, 8
+.size: equ $ - NAMTBL_Data
+
+Palette:   
+    ; high nibble: red 0-7; low nibble: blue 0-7
+    ; high nibble: 0000; low nibble:  green 0-7
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    db  0x00, 0x00      ; 
+    
+    ; 6 shades of gray
+    db  0x11, 0x01      ; 
+    db  0x22, 0x02      ; 
+    db  0x33, 0x03      ; 
+    db  0x44, 0x44      ; 
+    db  0x55, 0x55      ; 
+    db  0x66, 0x66      ; 
 ; ----------------------------------------
 
     db      "End ROM started at 0x4000"

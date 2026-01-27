@@ -1,7 +1,7 @@
-; 	org     0xc000, 0xe5ff
+	org     0xc000
 
 
-; SavedJiffy:     rb 1
+SavedJiffy:     rb 1
 
 ; SPRATR_Buffer:  rb 128 ; TODO: table align it to use INC L instead of INC HL
 

@@ -53,7 +53,7 @@
                     //     "quoting": "weak"
                     // },
                     {
-                        "value": "-script ${workspaceFolder}\\sliver_debug.tcl",
+                        "value": "-script ${workspaceFolder}\\debug.tcl",
                         "quoting": "weak"
                     }
                 ],
