@@ -168,9 +168,9 @@ Execute:
 
 
     ; load NAMTBL (first part)
-    ld		hl, NAMTBL_Data             ; RAM address (source)
+    ld		hl, NAMTBL_Test             ; RAM address (source)
     ld		de, NAMTBL		            ; VRAM address (destiny)
-    ld		bc, NAMTBL_Data.size	    ; Block length
+    ld		bc, NAMTBL_Test.size	    ; Block length
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
 
@@ -215,85 +215,21 @@ End:
 
 ; ----- Data
 
-Tile_Patterns:
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-
-Tile_Patterns_1:
-    db  10001000 b
-    db  00100010 b
-    db  10001000 b
-    db  00100010 b
-    db  10001000 b
-    db  00100010 b
-    db  10001000 b
-    db  00100010 b
-
-    db  10101010 b
-    db  01010101 b
-    db  10101010 b
-    db  01010101 b
-    db  10101010 b
-    db  01010101 b
-    db  10101010 b
-    db  01010101 b
-
-    db  01110111 b
-    db  11011101 b
-    db  01110111 b
-    db  11011101 b
-    db  01110111 b
-    db  11011101 b
-    db  01110111 b
-    db  11011101 b
-
-    db  11111111 b
-    db  11111111 b
-    db  11111111 b
-    db  11111111 b
-    db  11111111 b
-    db  11111111 b
-    db  11111111 b
-    db  11111111 b
-; .size: equ $ - Tile_Patterns
+    INCLUDE "Data/Palette.s"
+    INCLUDE "Data/TilePatterns.s"
 
 
-NAMTBL_Data:
+
+NAMTBL_Test:
     db  0
     db  1, 2, 3, 4
     db  5, 6, 7, 8
     db  9, 10, 11, 12
     db  13, 14, 15, 16
     db  17, 18, 19, 20
-.size: equ $ - NAMTBL_Data
+.size: equ $ - NAMTBL_Test
 
-Palette:   
-    ; high nibble: red 0-7; low nibble: blue 0-7
-    ; high nibble: 0000; low nibble:  green 0-7
-    db  0x00, 0x00      ; black
-    db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
-    db  0x00, 0x00      ; 
-    db  0x77, 0x07      ; white
-    
-    ; 6 shades of gray
-    db  0x11, 0x01      ; 
-    db  0x22, 0x02      ; 
-    db  0x33, 0x03      ; 
-    db  0x44, 0x44      ; 
-    db  0x55, 0x55      ; 
-    db  0x66, 0x66      ; 
+
 ; ----------------------------------------
 
     db      "End ROM started at 0x4000"
@@ -302,30 +238,15 @@ Palette:
 
 
 ; ----------------------------------------
-; MegaROM pages at 0x8000
 
+; ----- MegaROM pages at 0x8000
 
-
-; ------- Page 1
-	org	0x8000, 0xBFFF
-
-; LUT_MEGAROM_PAGE: equ 1
-
-; MegaROM_Page_1:
-;     INCLUDE "LookUpTables/LUT_Cos.s"
-;     INCLUDE "LookUpTables/LUT_Sin.s"
-;     INCLUDE "LookUpTables/LUT_Atan2.s"
-;     INCLUDE "LookUpTables/LUT_PowerOf2.s"
-;     INCLUDE "LookUpTables/LUT_SqRoot.s"
-; MegaROM_Page_1_size:      equ $ - MegaROM_Page_1
-
-	ds PageSize - ($ - 0x8000), 255
-
+    INCLUDE "Data/MegaRomPages.s"
 
 
 ; ----------------------------------------
 
-; RAM
+; ----- RAM
 
 RamStart:
 
