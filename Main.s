@@ -103,32 +103,32 @@ Execute:
 
 
     ; load PATTBL (first part)
-    ld		hl, Tile_Patterns           ; RAM address (source)
+    ld		hl, Tile_Patterns         ; RAM address (source)
     ld		de, PATTBL		            ; VRAM address (destiny)
     ld		bc, 0 + (1 * 8)	            ; Block length
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
-    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		hl, Tile_Patterns         ; RAM address (source)
     ld		de, PATTBL + (1 * 8)        ; VRAM address (destiny)
     ld		bc, 0 + (4 * 8)	            ; Block length
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
-    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		hl, Tile_Patterns         ; RAM address (source)
     ld		de, PATTBL + (5 * 8)        ; VRAM address (destiny)
     ld		bc, 0 + (4 * 8)	            ; Block length
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
-    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		hl, Tile_Patterns         ; RAM address (source)
     ld		de, PATTBL + (9 * 8)        ; VRAM address (destiny)
     ld		bc, 0 + (4 * 8)	            ; Block length
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
-    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		hl, Tile_Patterns         ; RAM address (source)
     ld		de, PATTBL + (13 * 8)        ; VRAM address (destiny)
     ld		bc, 0 + (4 * 8)	            ; Block length
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
-    ld		hl, Tile_Patterns_1         ; RAM address (source)
+    ld		hl, Tile_Patterns         ; RAM address (source)
     ld		de, PATTBL + (17 * 8)        ; VRAM address (destiny)
     ld		bc, 0 + (4 * 8)	            ; Block length
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
@@ -140,9 +140,14 @@ Execute:
     ; ld		bc, Tile_Colors.size	    ; Block length
     ; call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
-    ld      a, 0xba ; foreground color (pattern bits 1), bg color (pattern bits 0)
+    ld      a, 0xaa ; foreground color (pattern bits 1), bg color (pattern bits 0)
     ld		hl, COLTBL                  ; RAM address (source)
-    ld      bc, 5 * 8                   ; Length of the area to be written
+    ld      bc, 1 * 8                   ; Length of the area to be written
+    call    BIOS_BIGFIL                 ; Fill VRAM with value
+
+    ld      a, 0xba ; foreground color (pattern bits 1), bg color (pattern bits 0)
+    ld		hl, COLTBL + (1 * 8)        ; RAM address (source)
+    ld      bc, 4 * 8                   ; Length of the area to be written
     call    BIOS_BIGFIL                 ; Fill VRAM with value
 
     ld      a, 0xcb ; foreground color (pattern bits 1), bg color (pattern bits 0)

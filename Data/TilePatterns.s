@@ -1,14 +1,4 @@
 Tile_Patterns:
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-    db  00000000 b
-
-Tile_Patterns_1:
     db  10001000 b
     db  00100010 b
     db  10001000 b
