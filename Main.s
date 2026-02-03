@@ -16,6 +16,7 @@ DEBUG:          equ 255             ; defines debug mode, value is irrelevant (c
     
     ; INCLUDE "Include/Math.s"
 
+    INCLUDE "Graphics/LoadTestScreen.s"
     ; INCLUDE "ReadInput.s"
     ; INCLUDE "GameLogic/PlayerLogic/PlayerInit.s"
     ; INCLUDE "GameLogic/PlayerLogic/PlayerLogic.s"
@@ -102,82 +103,7 @@ Execute:
     call    LoadPalette
 
 
-    ; load PATTBL (first part)
-    ld		hl, Tile_Patterns         ; RAM address (source)
-    ld		de, PATTBL		            ; VRAM address (destiny)
-    ld		bc, 0 + (1 * 8)	            ; Block length
-    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
-
-    ld		hl, Tile_Patterns         ; RAM address (source)
-    ld		de, PATTBL + (1 * 8)        ; VRAM address (destiny)
-    ld		bc, 0 + (4 * 8)	            ; Block length
-    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
-
-    ld		hl, Tile_Patterns         ; RAM address (source)
-    ld		de, PATTBL + (5 * 8)        ; VRAM address (destiny)
-    ld		bc, 0 + (4 * 8)	            ; Block length
-    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
-
-    ld		hl, Tile_Patterns         ; RAM address (source)
-    ld		de, PATTBL + (9 * 8)        ; VRAM address (destiny)
-    ld		bc, 0 + (4 * 8)	            ; Block length
-    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
-
-    ld		hl, Tile_Patterns         ; RAM address (source)
-    ld		de, PATTBL + (13 * 8)        ; VRAM address (destiny)
-    ld		bc, 0 + (4 * 8)	            ; Block length
-    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
-
-    ld		hl, Tile_Patterns         ; RAM address (source)
-    ld		de, PATTBL + (17 * 8)        ; VRAM address (destiny)
-    ld		bc, 0 + (4 * 8)	            ; Block length
-    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
-
-
-    ; load COLTBL (first part)
-    ; ld		hl, Tile_Colors             ; RAM address (source)
-    ; ld		de, COLTBL		            ; VRAM address (destiny)
-    ; ld		bc, Tile_Colors.size	    ; Block length
-    ; call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
-
-    ld      a, 0xaa ; foreground color (pattern bits 1), bg color (pattern bits 0)
-    ld		hl, COLTBL                  ; RAM address (source)
-    ld      bc, 1 * 8                   ; Length of the area to be written
-    call    BIOS_BIGFIL                 ; Fill VRAM with value
-
-    ld      a, 0xba ; foreground color (pattern bits 1), bg color (pattern bits 0)
-    ld		hl, COLTBL + (1 * 8)        ; RAM address (source)
-    ld      bc, 4 * 8                   ; Length of the area to be written
-    call    BIOS_BIGFIL                 ; Fill VRAM with value
-
-    ld      a, 0xcb ; foreground color (pattern bits 1), bg color (pattern bits 0)
-    ld		hl, COLTBL + (5 * 8)        ; RAM address (source)
-    ld      bc, 4 * 8                   ; Length of the area to be written
-    call    BIOS_BIGFIL                 ; Fill VRAM with value
-
-    ld      a, 0xdc ; foreground color (pattern bits 1), bg color (pattern bits 0)
-    ld		hl, COLTBL + (9 * 8)        ; RAM address (source)
-    ld      bc, 4 * 8                   ; Length of the area to be written
-    call    BIOS_BIGFIL                 ; Fill VRAM with value
-
-    ld      a, 0xed ; foreground color (pattern bits 1), bg color (pattern bits 0)
-    ld		hl, COLTBL + (13 * 8)        ; RAM address (source)
-    ld      bc, 4 * 8                   ; Length of the area to be written
-    call    BIOS_BIGFIL                 ; Fill VRAM with value
-
-    ld      a, 0xfe ; foreground color (pattern bits 1), bg color (pattern bits 0)
-    ld		hl, COLTBL + (17 * 8)        ; RAM address (source)
-    ld      bc, 4 * 8                   ; Length of the area to be written
-    call    BIOS_BIGFIL                 ; Fill VRAM with value
-
-
-
-    ; load NAMTBL (first part)
-    ld		hl, NAMTBL_Test             ; RAM address (source)
-    ld		de, NAMTBL		            ; VRAM address (destiny)
-    ld		bc, NAMTBL_Test.size	    ; Block length
-    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
-
+    call    LoadTestScreen
 
 
     call    BIOS_ENASCR
@@ -222,18 +148,24 @@ End:
 
     INCLUDE "Data/Palette.s"
     INCLUDE "Data/TilePatterns.s"
+    INCLUDE "Data/TileColors.s"
 
+
+
+; NAMTBL_Test:
+;     db  0
+;     db  1, 2, 3, 4
+;     db  5, 6, 7, 8
+;     db  9, 10, 11, 12
+;     db  13, 14, 15, 16
+;     db  17, 18, 19, 20
+; .size: equ $ - NAMTBL_Test
 
 
 NAMTBL_Test:
-    db  0
-    db  1, 2, 3, 4
-    db  5, 6, 7, 8
-    db  9, 10, 11, 12
-    db  13, 14, 15, 16
-    db  17, 18, 19, 20
+    db  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+    db  16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
 .size: equ $ - NAMTBL_Test
-
 
 ; ----------------------------------------
 
