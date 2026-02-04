@@ -1,5 +1,9 @@
 	org     0xc000
 
+; table aligned
+NAMTBL_Buffer:  rb 512          ; buffer for first and second parts of screen
+
+Saved_SP:       rw 1
 
 SavedJiffy:     rb 1
 

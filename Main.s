@@ -18,7 +18,7 @@ DEBUG:          equ 255             ; defines debug mode, value is irrelevant (c
 
     INCLUDE "Graphics/LoadTestScreen.s"
     ; INCLUDE "ReadInput.s"
-    ; INCLUDE "GameLogic/PlayerLogic/PlayerInit.s"
+    INCLUDE "GameLogic/DrawColumn.s"
     ; INCLUDE "GameLogic/PlayerLogic/PlayerLogic.s"
     ; INCLUDE "GameLogic/ObjectLogic/ObjectInit.s"
     ; INCLUDE "GameLogic/ObjectLogic/ObjectLogic.s"
@@ -117,6 +117,15 @@ Execute:
     ; ld      hl, Object_0
     ; call    ObjectInit
 
+    ; clear NAMTBL_Buffer
+    ld      a, 255
+    ld      hl, NAMTBL_Buffer
+    ld      (hl), a
+    ld      de, NAMTBL_Buffer + 1
+    ld      bc, 512
+    ldir
+
+
 ; ------------------------------------
 
 ; --- Main game loop
@@ -129,6 +138,37 @@ MainLoop:
     ; call    SetPaletteColor_FromAddress
 
 
+    ; di
+    ;     ld      (Saved_SP), sp
+        
+    ;     ld      sp, Columns + (0 * 8)
+    ;     ld      hl, NAMTBL_Buffer + 0
+    ;     call    DrawColumn
+
+    ;     ld      sp, (Saved_SP)
+    ; ei
+
+
+
+    ld      hl, Columns + (0 * 8)
+    ld      de, NAMTBL_Buffer + 0
+    call    DrawColumn
+
+    ld      hl, Columns + (1 * 8)
+    ld      de, NAMTBL_Buffer + 1
+    call    DrawColumn
+
+    ld      hl, Columns + (4 * 8)
+    ld      de, NAMTBL_Buffer + 31
+    call    DrawColumn
+
+
+    ; TODO: change to unrolled OUTIs for performance
+    ; load NAMTBL from buffer
+    ld		hl, NAMTBL_Buffer           ; RAM address (source)
+    ld		de, NAMTBL		            ; VRAM address (destiny)
+    ld		bc, 512	                    ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
 
 
@@ -146,9 +186,25 @@ End:
 
 ; ----- Data
 
+NAMTBL_Test:
+    db  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+    db  16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+.size: equ $ - NAMTBL_Test
+
+
+
     INCLUDE "Data/Palette.s"
     INCLUDE "Data/TilePatterns.s"
     INCLUDE "Data/TileColors.s"
+    
+	
+    
+    ; table aligned data
+    ; 64 columns x 16 bytes = 512 bytes
+    ; org     0x7e00 ; not working
+	ds (0x7e00 - $), 255	; Fill the unused area with 0xFF
+   
+    INCLUDE "Data/Columns.s"
 
 
 
@@ -162,10 +218,6 @@ End:
 ; .size: equ $ - NAMTBL_Test
 
 
-NAMTBL_Test:
-    db  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
-    db  16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
-.size: equ $ - NAMTBL_Test
 
 ; ----------------------------------------
 
