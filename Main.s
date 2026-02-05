@@ -138,6 +138,7 @@ MainLoop:
     ; call    SetPaletteColor_FromAddress
 
 
+    ; TODO: not working, necessary for performance improvement
     ; di
     ;     ld      (Saved_SP), sp
         
@@ -150,18 +151,40 @@ MainLoop:
 
 
 
-    ld      hl, Columns + (0 * 8)
-    ld      de, NAMTBL_Buffer + 0
-    call    DrawColumn
+    ; ld      hl, Columns + (0 * 8)
+    ; ld      de, NAMTBL_Buffer + 0
+    ; call    DrawColumn
 
-    ld      hl, Columns + (1 * 8)
-    ld      de, NAMTBL_Buffer + 1
-    call    DrawColumn
+    ; ld      hl, Columns + (10 * 8)
+    ; ld      de, NAMTBL_Buffer + 1
+    ; call    DrawColumn
 
-    ld      hl, Columns + (4 * 8)
-    ld      de, NAMTBL_Buffer + 31
-    call    DrawColumn
+    ; ld      hl, Columns + (59 * 8)
+    ; ld      de, NAMTBL_Buffer + 15
+    ; call    DrawColumn
 
+    ; ld      hl, Columns + (4 * 8)
+    ; ld      de, NAMTBL_Buffer + 31
+    ; call    DrawColumn
+
+
+    ld      hl, Columns + (29 * 8)
+    ld      de, NAMTBL_Buffer
+    ld      ixl, 32       ; counter
+.loop:
+    push    ix
+        push    hl, de
+            call    DrawColumn
+        pop     de, hl
+        
+        ld      bc, 8       ; offset to be added to Columns Addr
+        add     hl, bc
+
+        inc     de
+
+    pop     ix
+    dec     ixl
+    jp      nz, .loop
 
     ; TODO: change to unrolled OUTIs for performance
     ; load NAMTBL from buffer
@@ -171,6 +194,8 @@ MainLoop:
     call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
 
 
+
+    jp $ ; [debug]
 
 
 
