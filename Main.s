@@ -122,7 +122,7 @@ Execute:
     ld      hl, NAMTBL_Buffer
     ld      (hl), a
     ld      de, NAMTBL_Buffer + 1
-    ld      bc, 512
+    ld      bc, 512 - 1
     ldir
 
 
@@ -151,25 +151,26 @@ MainLoop:
 
 
 
-    ; ld      hl, Columns + (0 * 8)
+    ; ld      hl, Columns + (0 * 16)
     ; ld      de, NAMTBL_Buffer + 0
     ; call    DrawColumn
 
-    ; ld      hl, Columns + (10 * 8)
+    ; ld      hl, Columns + (10 * 16)
     ; ld      de, NAMTBL_Buffer + 1
     ; call    DrawColumn
 
-    ; ld      hl, Columns + (59 * 8)
-    ; ld      de, NAMTBL_Buffer + 15
+    ; ld      hl, Columns + (60 * 16)
+    ; ld      de, NAMTBL_Buffer + 30
     ; call    DrawColumn
 
-    ; ld      hl, Columns + (4 * 8)
+    ; ld      hl, Columns + (10 * 16)
     ; ld      de, NAMTBL_Buffer + 31
     ; call    DrawColumn
 
 
+    ; --- test showing columns in sequence
     ; ld      hl, Columns
-    ld      hl, Columns + (29 * 8)
+    ld      hl, Columns + (29 * 16)
     ld      de, NAMTBL_Buffer
     ld      ixl, 32       ; counter
 .loop:
@@ -178,7 +179,7 @@ MainLoop:
             call    DrawColumn
         pop     de, hl
         
-        ld      bc, 8       ; offset to be added to Columns Addr
+        ld      bc, 16       ; offset to be added to Columns Addr
         add     hl, bc
 
         inc     de

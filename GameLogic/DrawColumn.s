@@ -29,6 +29,8 @@ DrawColumn_SP:
 ; DE: NAMTBL_buffer addr for this column
 DrawColumn:
 
+    ld      ixh, d ; save d
+
     ; before
     ld      a, e    ; save lower byte of DE
     ld      b, 32   ; value to be used to DE += 32 (next line of NAMTBL)
@@ -68,6 +70,41 @@ DrawColumn:
     ld      e, a
 
     ; after 8 repetitions
+    ld      d, ixh  ; restore d
     inc     d       ; is it really necessary? A: yes, the last LDI increments E from 224 to 225...
+
+
+
+    ldi
+    add     b
+    ld      e, a
+
+    ldi
+    add     b
+    ld      e, a
+
+    ldi
+    add     b
+    ld      e, a
+
+    ldi
+    add     b
+    ld      e, a
+
+    ldi
+    add     b
+    ld      e, a
+
+    ldi
+    add     b
+    ld      e, a
+
+    ldi
+    add     b
+    ld      e, a
+
+    ldi
+    add     b
+    ld      e, a
 
     ret

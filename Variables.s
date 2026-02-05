@@ -3,9 +3,14 @@
 ; table aligned
 NAMTBL_Buffer:  rb 512          ; buffer for first and second parts of screen
 
+TempData:       rb 8
+
 Saved_SP:       rw 1
 
 SavedJiffy:     rb 1
+
+
+
 
 ; SPRATR_Buffer:  rb 128 ; TODO: table align it to use INC L instead of INC HL
 
