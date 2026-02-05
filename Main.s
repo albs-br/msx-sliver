@@ -168,6 +168,7 @@ MainLoop:
     ; call    DrawColumn
 
 
+    ; ld      hl, Columns
     ld      hl, Columns + (29 * 8)
     ld      de, NAMTBL_Buffer
     ld      ixl, 32       ; counter
