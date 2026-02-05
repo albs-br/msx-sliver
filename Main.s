@@ -151,6 +151,7 @@ MainLoop:
 
 
 
+    ; ; --- test showing some columns
     ; ld      hl, Columns + (0 * 16)
     ; ld      de, NAMTBL_Buffer + 0
     ; call    DrawColumn
@@ -159,18 +160,19 @@ MainLoop:
     ; ld      de, NAMTBL_Buffer + 1
     ; call    DrawColumn
 
-    ; ld      hl, Columns + (60 * 16)
+    ; ld      hl, Columns + (59 * 16) ; 59 = last column
     ; ld      de, NAMTBL_Buffer + 30
     ; call    DrawColumn
 
-    ; ld      hl, Columns + (10 * 16)
+    ; ld      hl, Columns + (20 * 16)
     ; ld      de, NAMTBL_Buffer + 31
     ; call    DrawColumn
 
 
+    ; TODO: improve dithering patterns (more patterns for smoother transitions)
     ; --- test showing columns in sequence
-    ; ld      hl, Columns
-    ld      hl, Columns + (29 * 16)
+    ld      hl, Columns
+    ; ld      hl, Columns + (28 * 16)
     ld      de, NAMTBL_Buffer
     ld      ixl, 32       ; counter
 .loop:
@@ -187,6 +189,8 @@ MainLoop:
     pop     ix
     dec     ixl
     jp      nz, .loop
+
+
 
     ; TODO: change to unrolled OUTIs for performance
     ; load NAMTBL from buffer
