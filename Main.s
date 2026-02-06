@@ -19,7 +19,7 @@ DEBUG:          equ 255             ; defines debug mode, value is irrelevant (c
     INCLUDE "Graphics/LoadTiles.s"
     INCLUDE "Graphics/LoadTestScreen.s"
     INCLUDE "Graphics/LoadTestScreen_1.s"
-    ; INCLUDE "ReadInput.s"
+    INCLUDE "ReadInput.s"
     INCLUDE "GameLogic/LoadMap.s"
     INCLUDE "GameLogic/DrawColumn.s"
     INCLUDE "GameLogic/PlayerLogic/PlayerInit.s"
@@ -140,6 +140,11 @@ Execute:
 ; --- Main game loop
 
 MainLoop:
+
+    call    Wait_Vblank
+
+
+    call    ReadInput
 
 
 

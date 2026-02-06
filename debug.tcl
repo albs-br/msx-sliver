@@ -1,5 +1,7 @@
 #ram_watch   add     0xc000      -type byte       -desc SavedJiffy             -format dec
 
+ram_watch   add     0xe001      -type byte       -desc P.map_X          -format dec
+ram_watch   add     0xe003      -type byte       -desc P.map_Y          -format dec
 ram_watch   add     0xe000      -type word       -desc P.X              -format dec
 ram_watch   add     0xe002      -type word       -desc P.Y              -format dec
 ram_watch   add     0xe004      -type word       -desc P.angle          -format dec

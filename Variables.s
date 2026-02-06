@@ -24,15 +24,19 @@ Map:            rb MAP_WIDTH * MAP_HEIGHT      ; 64 x 64 map cells
 ;            III (QIII)	Negative (-)	Negative (-)
 ;            IV (QIV)	Positive (+)	Negative (-)
 
-	;org     0xe000          ; fixed address for make it easier to track vars with the tcl script
+	org     0xe000          ; fixed address for make it easier to track vars with the tcl script
 Player:
     .X:             rw 1 ; X coord of player on map (0-65535)
+    .map_X:         equ $ - 1
     .Y:             rw 1 ; Y coord of player on map (0-65535)
+    .map_Y:         equ $ - 1
     .angle:         rw 1 ; 0-359 degrees, 0 is left (east), increments clockwise
     .FoV_start:     rw 1 ; 0-359 degrees
     .FoV_end:       rw 1 ; 0-359 degrees
     .walk_DX:       rw 1 ; 8.8 fixed point
     .walk_DY:       rw 1 ; 8.8 fixed point
+
+
 
 TempData:       rb 8
 
