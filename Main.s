@@ -16,9 +16,11 @@ DEBUG:          equ 255             ; defines debug mode, value is irrelevant (c
     
     ; INCLUDE "Include/Math.s"
 
+    INCLUDE "Graphics/LoadTiles.s"
     INCLUDE "Graphics/LoadTestScreen.s"
     ; INCLUDE "ReadInput.s"
     INCLUDE "GameLogic/DrawColumn.s"
+    INCLUDE "GameLogic/PlayerLogic/PlayerInit.s"
     ; INCLUDE "GameLogic/PlayerLogic/PlayerLogic.s"
     ; INCLUDE "GameLogic/ObjectLogic/ObjectInit.s"
     ; INCLUDE "GameLogic/ObjectLogic/ObjectLogic.s"
@@ -102,7 +104,8 @@ Execute:
     ld      hl, Palette
     call    LoadPalette
 
-
+    call    LoadTiles
+    
     call    LoadTestScreen
 
 
@@ -112,7 +115,7 @@ Execute:
 
     ; ----- Init vars
 
-    ; call    PlayerInit
+    call    PlayerInit
 
     ; ld      hl, Object_0
     ; call    ObjectInit

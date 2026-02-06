@@ -3,11 +3,28 @@
 ; table aligned
 NAMTBL_Buffer:  rb 512          ; buffer for first and second parts of screen
 
+; table aligned
+;SPRATR_Buffer:  rb 128
+
+; table aligned
+Map:            rb 64 * 64      ; 64 x 64 map cells
+
+
+	org     0xe000          ; fixed address for make it easier to track vars with the tcl script
+Player:
+    .X:             rw 1 ; X coord of player on map (0-65535)
+    .Y:             rw 1 ; Y coord of player on map (0-65535)
+    .angle:         rw 1 ; 0-359 degrees, 0 is left (east), increments counter-clockwise
+    .FoV_start:     rw 1 ; 0-359 degrees
+    .FoV_end:       rw 1 ; 0-359 degrees
+    .walk_DX:       rw 1 ; 8.8 fixed point
+    .walk_DY:       rw 1 ; 8.8 fixed point
+
 TempData:       rb 8
 
-Saved_SP:       rw 1
+; Saved_SP:       rw 1
 
-SavedJiffy:     rb 1
+; SavedJiffy:     rb 1
 
 
 
