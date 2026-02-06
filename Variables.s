@@ -6,15 +6,29 @@ NAMTBL_Buffer:  rb 512          ; buffer for first and second parts of screen
 ; table aligned
 ;SPRATR_Buffer:  rb 128
 
+
+MAP_WIDTH:      equ 64
+MAP_HEIGHT:     equ 64
+
 ; table aligned
-Map:            rb 64 * 64      ; 64 x 64 map cells
+Map:            rb MAP_WIDTH * MAP_HEIGHT      ; 64 x 64 map cells
 
 
-	org     0xe000          ; fixed address for make it easier to track vars with the tcl script
+;            QIII | QIY
+;            -----+-----
+;            QII  | QI
+;
+;            Quadrant 	x-coordinate	y-coordinate
+;            I (QI)	    Positive (+)	Positive (+)
+;            II (QII)	Negative (-)	Positive (+)
+;            III (QIII)	Negative (-)	Negative (-)
+;            IV (QIV)	Positive (+)	Negative (-)
+
+	;org     0xe000          ; fixed address for make it easier to track vars with the tcl script
 Player:
     .X:             rw 1 ; X coord of player on map (0-65535)
     .Y:             rw 1 ; Y coord of player on map (0-65535)
-    .angle:         rw 1 ; 0-359 degrees, 0 is left (east), increments counter-clockwise
+    .angle:         rw 1 ; 0-359 degrees, 0 is left (east), increments clockwise
     .FoV_start:     rw 1 ; 0-359 degrees
     .FoV_end:       rw 1 ; 0-359 degrees
     .walk_DX:       rw 1 ; 8.8 fixed point
