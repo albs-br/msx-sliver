@@ -61,7 +61,7 @@ ReadInput:
 
     ; call    Update_FoV
 
-    ; call    Update_walkDXandDY
+    call    Update_walkDXandDY
 
     ret
 

@@ -23,7 +23,7 @@ DEBUG:          equ 255             ; defines debug mode, value is irrelevant (c
     INCLUDE "GameLogic/LoadMap.s"
     INCLUDE "GameLogic/DrawColumn.s"
     INCLUDE "GameLogic/PlayerLogic/PlayerInit.s"
-    ; INCLUDE "GameLogic/PlayerLogic/PlayerLogic.s"
+    INCLUDE "GameLogic/PlayerLogic/PlayerLogic.s"
     ; INCLUDE "GameLogic/ObjectLogic/ObjectInit.s"
     ; INCLUDE "GameLogic/ObjectLogic/ObjectLogic.s"
     ; INCLUDE "UpdateSPRATR.s"
@@ -172,14 +172,12 @@ NAMTBL_Test:
     INCLUDE "Data/Palette.s"
     INCLUDE "Data/TilePatterns.s"
     INCLUDE "Data/TileColors.s"
-    
+
 	
     
     ; table aligned data
     ; 64 columns x 16 bytes = 512 bytes
     ; org     0x7e00 ; not working
-
-
 	ds (0x7c00 - $), 255	; Fill the unused area with 0xFF
 
 Columns_Data:
