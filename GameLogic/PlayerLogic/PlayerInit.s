@@ -10,8 +10,6 @@ PlayerInit:
     ld      hl, 45
     ld      (Player.angle), hl
 
-.updateCalcFields:
-    ; call    Update_FoV
-    call    Update_walkDXandDY
+    call    Player_Update_AllFields
 
     ret

@@ -1,5 +1,12 @@
 	org     0xc000
 
+MAP_WIDTH:      equ 64
+MAP_HEIGHT:     equ 64
+
+; table aligned
+Map:            rb MAP_WIDTH * MAP_HEIGHT      ; 64 x 64 map cells
+
+
 ; table aligned
 NAMTBL_Buffer:  rb 512          ; buffer for first and second parts of screen
 
@@ -7,11 +14,6 @@ NAMTBL_Buffer:  rb 512          ; buffer for first and second parts of screen
 ;SPRATR_Buffer:  rb 128
 
 
-MAP_WIDTH:      equ 64
-MAP_HEIGHT:     equ 64
-
-; table aligned
-Map:            rb MAP_WIDTH * MAP_HEIGHT      ; 64 x 64 map cells
 
 
 ;            QIII | QIY
@@ -35,7 +37,7 @@ Player:
     .FoV_end:       rw 1 ; 0-359 degrees
     .walk_DX:       rw 1 ; 8.8 fixed point
     .walk_DY:       rw 1 ; 8.8 fixed point
-
+    .mapCell:       rw 1 ; real addr of current map cell position
 
 
 TempData:       rb 8

@@ -1,4 +1,53 @@
-Update_walkDXandDY:
+Player_Update_AllFields:
+
+    call    Player_Update_MapCell
+    ; call    Player_Update_FoV
+    call    Player_Update_walkDXandDY
+
+    ret
+
+Player_Update_MapCell:
+
+    ; map_cell = (Y*64) + X
+
+    ld      h, 0
+    ld      a, (Player.map_Y)
+    ld      l, a
+
+    ; --- shift left 6 bits
+    ; T-Cycles: 52
+    ; Bytes: 13
+    ; Trashed: A
+    XOR A
+    SRL H
+    RR L
+    RRA
+    SRL H
+    RR L
+    RRA
+    LD H, L
+    LD L, A
+
+    ld      b, h
+    ld      c, l
+
+    ld      h, 0
+    ld      a, (Player.map_X)
+    ld      l, a
+
+    add     hl, bc
+
+
+
+    ; Add to map addr on RAM
+    ld      bc, Map
+    add     hl, bc
+
+    ld      (Player.mapCell), hl
+
+    ret
+
+Player_Update_walkDXandDY:
 
     ; set MegaROM page for LUT data
     ld      a, LUT_MEGAROM_PAGE

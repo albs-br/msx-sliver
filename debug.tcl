@@ -11,6 +11,7 @@ ram_watch   add     0xe006      -type word       -desc P.FoV_start      -format 
 ram_watch   add     0xe008      -type word       -desc P.FoV_end        -format dec
 ram_watch   add     0xe00a      -type word       -desc P.walk_X         -format dec
 ram_watch   add     0xe00c      -type word       -desc P.walk_Y         -format dec
+ram_watch   add     0xe00e      -type word       -desc P.mapCell        -format hex
 
 #ram_watch   add     0xc108      -type word       -desc O_0.angle             -format dec
 #ram_watch   add     0xc10a      -type byte       -desc O_0.isVis             -format dec

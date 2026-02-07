@@ -59,9 +59,10 @@ ReadInput:
 .rotate_return:
     ld      (Player.angle), hl
 
-    ; call    Update_FoV
 
-    call    Update_walkDXandDY
+    ; call    Player_Update_FoV
+
+    call    Player_Update_walkDXandDY
 
     ret
 
@@ -82,6 +83,8 @@ ReadInput:
 
     add     hl, de
     ld      (Player.X), hl
+
+    call    Player_Update_MapCell
 
     ret
 
@@ -104,5 +107,7 @@ ReadInput:
     xor     a ; clear carry
     sbc     hl, de
     ld      (Player.X), hl
+
+    call    Player_Update_MapCell
 
     ret
