@@ -1,4 +1,4 @@
-; ------- Page 1
+; ------- MegaROM Page 1
 	org	0x8000, 0xBFFF
 
 MAPS_MEGAROM_PAGE: equ 1
@@ -13,3 +13,6 @@ LUT_MEGAROM_PAGE: equ 1
 
 	ds PageSize - ($ - 0x8000), 255
 
+; ----------------------------------------
+
+    INCLUDE "Data/PreCalcData.s"
