@@ -64,6 +64,7 @@ ReadInput:
 
     call    Player_Update_WalkDXandDY
 
+
     ret
 
 .walkForward:
@@ -84,9 +85,8 @@ ReadInput:
     add     hl, de
     ld      (Player.X), hl
 
-    call    Player_Update_MapCell
+    jp      .walk_return
 
-    ret
 
 .walkBackwards:
 
@@ -108,6 +108,11 @@ ReadInput:
     sbc     hl, de
     ld      (Player.X), hl
 
+    ; jp      .walk_return
+
+.walk_return:
+
     call    Player_Update_MapCell
+    call    Player_Update_InsideCell
 
     ret

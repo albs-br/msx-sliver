@@ -39,11 +39,17 @@ Player:
     .walk_DY:       rw 1        ; 8.8 fixed point
     .mapCellAddr:   rw 1        ; real addr of current map cell position
     .mapCellValue:  rb 1        ; value of current map cell position
+    .x_inside_cell: rb 1        ; 0-15
+    .y_inside_cell: rb 1        ; 0-15
 
-TempData:       rb 8
+
+	org     0xe200          ; fixed address for make it easier to track vars with the tcl script
 
 PreCalcData_MegaromPage:    rb 1
 PreCalcData_BaseAddr:       rw 1
+
+TempData:       rb 8
+
 
 
 ; Saved_SP:       rw 1

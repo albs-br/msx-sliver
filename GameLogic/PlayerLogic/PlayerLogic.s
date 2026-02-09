@@ -3,6 +3,24 @@ Player_Update_AllFields:
     call    Player_Update_MapCell
     ; call    Player_Update_FoV
     call    Player_Update_WalkDXandDY
+    call    Player_Update_InsideCell
+
+    ret
+
+Player_Update_InsideCell:
+    ld      a, (Player.X)   ; get lowest byte of X
+    srl     a               ; shift right register 4x to get 4 highest bits (0-15 position inside cell)
+    srl     a
+    srl     a
+    srl     a
+    ld      (Player.x_inside_cell), a
+
+    ld      a, (Player.Y)   ; get lowest byte of Y
+    srl     a               ; shift right register 4x to get 4 highest bits (0-15 position inside cell)
+    srl     a
+    srl     a
+    srl     a
+    ld      (Player.y_inside_cell), a
 
     ret
 

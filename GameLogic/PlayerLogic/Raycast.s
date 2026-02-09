@@ -45,11 +45,7 @@ Raycast:
 
     push    hl
         ; --- each x =>         (x_inside_cell) * (180 * 64)             =>      x * 11520
-        ld      a, (Player.Y)   ; get lowest byte of Y
-        srl     a               ; shift right register 4x to get 4 highest bits (0-15 position inside cell)
-        srl     a
-        srl     a
-        srl     a
+        ld      a, (Player.x_inside_cell)
         ld      l, a
         ld      h, 0
         
@@ -79,11 +75,7 @@ Raycast:
 
     push    af, hl
         ; --- each y =>         (y_inside_cell) * (16 * (180 * 64))      =>      y * 184320
-        ld      a, (Player.Y)   ; get lowest byte of Y
-        srl     a               ; shift right register 4x to get 4 highest bits (0-15 position inside cell)
-        srl     a
-        srl     a
-        srl     a
+        ld      a, (Player.y_inside_cell)
         ld      l, a
         ld      h, 0
         

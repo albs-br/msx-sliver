@@ -11,6 +11,8 @@ ram_watch   add     0xe00a      -type word       -desc P.walk_X         -format 
 ram_watch   add     0xe00c      -type word       -desc P.walk_Y         -format dec
 ram_watch   add     0xe00e      -type word       -desc P.mapCellAddr    -format hex
 ram_watch   add     0xe010      -type byte       -desc P.mapCellVal     -format dec
+ram_watch   add     0xe011      -type byte       -desc P.x_inside_cell  -format dec
+ram_watch   add     0xe012      -type byte       -desc P.y_inside_cell  -format dec
 
-ram_watch   add     0xe019      -type byte       -desc P.PCD_Page       -format dec
-ram_watch   add     0xe01a      -type word       -desc P.PCD_Addr       -format hex
+ram_watch   add     0xe200      -type byte       -desc P.PCD_Page       -format dec
+ram_watch   add     0xe201      -type word       -desc P.PCD_Addr       -format hex
