@@ -7,7 +7,7 @@ PlayerInit:
     ld      hl, 0 + (31*256)
     ld      (Player.Y), hl
     
-    ld      hl, 45
+    ld      hl, 44
     ld      (Player.angle), hl
 
     call    Player_Update_AllFields

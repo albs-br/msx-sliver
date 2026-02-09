@@ -2,15 +2,7 @@
 Raycast:
 
 
-; HL points to current player cell on map
-    ; ld      hl, (Player.mapCellAddr)
 
-; DE points to precalc squares touched data for current angle and player position inside cell
-    ; ld      a, (Player.X)   ; get lowest byte of X
-    ; srl     a               ; shift right register 4x to get 4 highest bits (0-15 position inside cell)
-    ; srl     a
-    ; srl     a
-    ; srl     a
 
 
 
@@ -30,6 +22,12 @@ Raycast:
 
     ; --- each angle =>     (angle/2) * 64)                 =>      angle * 32
     ld      hl, (Player.angle)
+    
+    ; res     7, l        ; reset lowest bit of L
+    ld      a, l
+    and     1111 1110 b
+    ld      l, a
+    
     add     hl, hl
     add     hl, hl
     add     hl, hl
@@ -63,6 +61,10 @@ Raycast:
         ld      d, (hl)
         inc     hl
         ld      c, (hl)
+
+        ; ld      (TempWord_1), de  ; debug
+        ; ld      a, c
+        ; ld      (TempByte_1), a
     pop     hl
 
     ; AHL = HL + CDE
@@ -93,6 +95,10 @@ Raycast:
         ld      d, (hl)
         inc     hl
         ld      c, (hl)
+
+        ; ld      (TempWord_1), de  ; debug
+        ; ld      a, c
+        ; ld      (TempByte_1), a
     pop     hl, af
     
     ; AHL = AHL + CDE
@@ -105,11 +111,19 @@ Raycast:
     ld      d, h
 
     ; clear 2 highest bits of D
-    ld      a, d
-    and     0011 1111 b
-    ld      d, a
+    push    af
+        ld      a, d
+        and     0011 1111 b
+        ld      d, a
 
-    ld      (PreCalcData_BaseAddr), de
+        ; DE += 0x8000        ; 0x8000 = base addr of MegaROM page
+        ld      bc, 0x8000
+        ex      de, hl
+            add     hl, bc
+        ex      de, hl
+
+        ld      (PreCalcData_BaseAddr), de
+    pop     af
 
     ; ------ megarom page number
     ; AHL format:
@@ -119,6 +133,9 @@ Raycast:
     ; aaaaaaaa          : megarom page (8 bits), must add to MAPS_MEGAROM_PAGE
     ; bbbbbb bbbbbbbb   : address inside megarom page (14 bits)
 
+    ; shift left AH 2 bits
+    scf     ; set carry flag
+    ccf     ; complement (invert) carry flag
     rl      h
     rla
     rl      h
@@ -133,28 +150,35 @@ Raycast:
 
 
 
-; HL points to current player cell on map
-    ld      hl, (Player.mapCellAddr)
+
 
 ; DE points to precalc squares touched data for current angle and player position inside cell
+    ; DE += 2       ; +2 to skip the 2 first fields of block data
+    inc     de
+    inc     de
 
-    ; DE += 2
-    inc     de
-    inc     de
+; HL points to current player cell on map
+    ld      hl, (Player.mapCellAddr)
 
 ;--------
     ld      b, 0
 
     ld      ixl, 20
 .loop:
+
+        ; HL points to current player cell on map
+        ; DE points to precalc squares touched data for current angle and player position inside cell
+
         ; TODO: unroll loop 20x: 53 * 20 cycles max to find wall
         ld      a, (de)
     
         ld      c, a
 
-        add     hl, bc
+        add     hl, bc                  ; BUG here: negative values in 8 bits cannot be coverted to 16 bits this way
 
         ld      a, (hl)
+
+
         or      a
         jr      nz, .is_wall        ; JR wont work here if destiny is over 127 bytes
         ;call    nz, .is_not_empty ; map cell contains enemy/object <--- IMPROVE THIS PART
@@ -172,7 +196,17 @@ Raycast:
     ; get distance and
     ; call DrawColumn with it
 
+    ; number of tiles = DE - PreCalcData_BaseAddr - 2
+    dec     de
+    dec     de
+    ex      de, hl      ; HL = DE
+    ld      de, (PreCalcData_BaseAddr)
+    xor     a
+    sbc     hl, de
 
+
+ ld (TempWord_2), hl; debug
+ ;jp $ ; debug
 
     ; ld      hl, Columns + (0 * 16) ; first column
     ; ld      hl, Columns + (59 * 16) ; 59 = last column

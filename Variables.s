@@ -48,6 +48,11 @@ Player:
 PreCalcData_MegaromPage:    rb 1
 PreCalcData_BaseAddr:       rw 1
 
+
+TempByte_1:     rb 1
+TempWord_1:     rw 1
+TempWord_2:     rw 1
+
 TempData:       rb 8
 
 
