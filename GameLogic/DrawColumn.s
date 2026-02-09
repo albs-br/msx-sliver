@@ -35,7 +35,7 @@ DrawColumn:
     ld      ixh, d ; save d
 
     ; before
-    ld      a, e    ; save lower byte of DE
+    ld      a, e    ; save low byte of DE
     ld      b, 32   ; value to be used to DE += 32 (next line of NAMTBL)
     ld      c, 255  ; safe value to LDI not touch B
 

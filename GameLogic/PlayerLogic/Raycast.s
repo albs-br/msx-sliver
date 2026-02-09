@@ -3,11 +3,11 @@ Raycast:
 
 
 ; HL points to current player cell on map
-    ld      hl, (Player.mapCellAddr)
+    ; ld      hl, (Player.mapCellAddr)
 
 ; DE points to precalc squares touched data for current angle and player position inside cell
     ; ld      a, (Player.X)   ; get lowest byte of X
-    ; srl     a               ; shift right register 4x to get 4 higher bits (0-15 position inside cell)
+    ; srl     a               ; shift right register 4x to get 4 highest bits (0-15 position inside cell)
     ; srl     a
     ; srl     a
     ; srl     a
@@ -44,31 +44,9 @@ Raycast:
     ld	    (Seg_P8000_SW), a
 
     push    hl
-        ; --- each x =>         (x_lowbyte/16) * (180 * 64)             =>      x * 720
-        ld      bc, LUT_multiply_720
-        ld      a, (Player.X)   ; get lowest byte of X
-        srl     a               ; shift right register 4x to get 4 higher bits (0-15 position inside cell)
-        srl     a
-        srl     a
-        srl     a
-        add     a, a        ; mult by 2 (each data is word)
-        ld      l, a
-        ld      h, 0
-        add     hl, bc
-        
-        ld      c, (hl)     ; BC = (HL)
-        inc     hl
-        ld      b, (hl)
-    pop     hl
-    add     hl, bc      ; sum to previous result
-
-    ; ld      e, l            ; DE = HL
-    ; ld      d, h
-
-    push    hl
-        ; --- each y =>         (y_lowbyte/16) * (16 * (180 * 64))      =>      y * 11520
-        ld      a, (Player.Y)   ; get lowest byte of X
-        srl     a               ; shift right register 4x to get 4 higher bits (0-15 position inside cell)
+        ; --- each x =>         (x_inside_cell) * (180 * 64)             =>      x * 11520
+        ld      a, (Player.Y)   ; get lowest byte of Y
+        srl     a               ; shift right register 4x to get 4 highest bits (0-15 position inside cell)
         srl     a
         srl     a
         srl     a
@@ -90,26 +68,87 @@ Raycast:
         inc     hl
         ld      c, (hl)
     pop     hl
-    
+
     ; AHL = HL + CDE
     xor     a
     add     hl, de
     adc     a, c        ; A = A + C + carry
 
+    ; ld      e, l            ; DE = HL
+    ; ld      d, h
 
-    ; AHL:
+    push    af, hl
+        ; --- each y =>         (y_inside_cell) * (16 * (180 * 64))      =>      y * 184320
+        ld      a, (Player.Y)   ; get lowest byte of Y
+        srl     a               ; shift right register 4x to get 4 highest bits (0-15 position inside cell)
+        srl     a
+        srl     a
+        srl     a
+        ld      l, a
+        ld      h, 0
+        
+        ld      c, l            ; BC = HL
+        ld      b, h
+        
+        add     hl, bc          ; mult by 3 (each data is 3 bytes long)
+        add     hl, bc
+
+        ld      bc, LUT_multiply_184320
+        add     hl, bc
+
+        ld      e, (hl)     ; CDE = (HL)
+        inc     hl
+        ld      d, (hl)
+        inc     hl
+        ld      c, (hl)
+    pop     hl, af
+    
+    ; AHL = AHL + CDE
+    scf     ; set carry flag
+    ccf     ; complement (invert) carry flag
+    add     hl, de
+    adc     a, c        ; A = A + C + carry
+
+    ld      e, l            ; DE = HL
+    ld      d, h
+
+    ; clear 2 highest bits of D
+    ld      a, d
+    and     0011 1111 b
+    ld      d, a
+
+    ld      (PreCalcData_BaseAddr), de
+
+    ; ------ megarom page number
+    ; AHL format:
     ; --aaaaaa aabbbbbb bbbbbbbb
     ; 11111111 11111111 11111111 
     ; 
     ; aaaaaaaa          : megarom page (8 bits), must add to MAPS_MEGAROM_PAGE
     ; bbbbbb bbbbbbbb   : address inside megarom page (14 bits)
 
-    ; add     hl, de      ; sum to previous result
+    rl      h
+    rla
+    rl      h
+    rla
+
+    add     PRECALC_DATA_FIRST_MEGAROM_PAGE
+
+    ld      (PreCalcData_MegaromPage), a
+
+    ; set MegaROM page for Precalc data
+    ld	    (Seg_P8000_SW), a
 
 
 
+; HL points to current player cell on map
+    ld      hl, (Player.mapCellAddr)
 
+; DE points to precalc squares touched data for current angle and player position inside cell
 
+    ; DE += 2
+    inc     de
+    inc     de
 
 ;--------
     ld      b, 0

@@ -1,5 +1,3 @@
-#ram_watch   add     0xc000      -type byte       -desc SavedJiffy             -format dec
-
 ram_watch   add     0xe000      -type word       -desc P.X              -format dec
 ram_watch   add     0xe002      -type word       -desc P.Y              -format dec
 
@@ -14,10 +12,5 @@ ram_watch   add     0xe00c      -type word       -desc P.walk_Y         -format 
 ram_watch   add     0xe00e      -type word       -desc P.mapCellAddr    -format hex
 ram_watch   add     0xe010      -type byte       -desc P.mapCellVal     -format dec
 
-#ram_watch   add     0xc108      -type word       -desc O_0.angle             -format dec
-#ram_watch   add     0xc10a      -type byte       -desc O_0.isVis             -format dec
-#ram_watch   add     0xc10b      -type byte       -desc O_0.posX_inside_FoV             -format dec
-#ram_watch   add     0xc10c      -type byte       -desc O_0.quad             -format dec
-#ram_watch   add     0xc10d      -type byte       -desc O_0.div_E            -format hex
-#ram_watch   add     0xc10e      -type byte       -desc O_0.div_D            -format hex
-#ram_watch   add     0xc10f      -type byte       -desc O_0.div_A            -format hex
+ram_watch   add     0xe019      -type byte       -desc P.PCD_Page       -format dec
+ram_watch   add     0xe01a      -type word       -desc P.PCD_Addr       -format hex

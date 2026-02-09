@@ -17,5 +17,6 @@ LUT_MEGAROM_PAGE: equ 1
 ; ----------------------------------------
 
 ; ------- MegaROM Pages from 2 to 181
+PRECALC_DATA_FIRST_MEGAROM_PAGE: equ 2
 
     INCLUDE "Data/PreCalcData.s"

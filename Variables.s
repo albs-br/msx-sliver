@@ -40,8 +40,11 @@ Player:
     .mapCellAddr:   rw 1        ; real addr of current map cell position
     .mapCellValue:  rb 1        ; value of current map cell position
 
-
 TempData:       rb 8
+
+PreCalcData_MegaromPage:    rb 1
+PreCalcData_BaseAddr:       rw 1
+
 
 ; Saved_SP:       rw 1
 

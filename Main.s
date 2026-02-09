@@ -150,7 +150,7 @@ MainLoop:
     call    ReadInput
 
 
-    ;call    RayCast
+    call    RayCast
 
 
     ; call    Update_NAMTBL
