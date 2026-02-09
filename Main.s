@@ -19,11 +19,13 @@ DEBUG:          equ 255             ; defines debug mode, value is irrelevant (c
     INCLUDE "Graphics/LoadTiles.s"
     INCLUDE "Graphics/LoadTestScreen.s"
     INCLUDE "Graphics/LoadTestScreen_1.s"
+    INCLUDE "Graphics/Update_NAMTBL.s"
     INCLUDE "ReadInput.s"
     INCLUDE "GameLogic/LoadMap.s"
     INCLUDE "GameLogic/DrawColumn.s"
     INCLUDE "GameLogic/PlayerLogic/PlayerInit.s"
     INCLUDE "GameLogic/PlayerLogic/PlayerLogic.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast.s"
     ; INCLUDE "GameLogic/ObjectLogic/ObjectInit.s"
     ; INCLUDE "GameLogic/ObjectLogic/ObjectLogic.s"
     ; INCLUDE "UpdateSPRATR.s"
@@ -108,6 +110,7 @@ Execute:
 
     call    LoadTiles
     
+    ; [debug]
     ; call    LoadTestScreen
     call    LoadTestScreen_1
 
@@ -147,7 +150,10 @@ MainLoop:
     call    ReadInput
 
 
+    ;call    RayCast
 
+
+    ; call    Update_NAMTBL
 
 
     jp  MainLoop

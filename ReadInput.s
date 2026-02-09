@@ -62,7 +62,7 @@ ReadInput:
 
     ; call    Player_Update_FoV
 
-    call    Player_Update_walkDXandDY
+    call    Player_Update_WalkDXandDY
 
     ret
 

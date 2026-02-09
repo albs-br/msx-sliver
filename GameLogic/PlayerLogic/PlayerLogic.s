@@ -2,7 +2,7 @@ Player_Update_AllFields:
 
     call    Player_Update_MapCell
     ; call    Player_Update_FoV
-    call    Player_Update_walkDXandDY
+    call    Player_Update_WalkDXandDY
 
     ret
 
@@ -43,11 +43,16 @@ Player_Update_MapCell:
     ld      bc, Map
     add     hl, bc
 
-    ld      (Player.mapCell), hl
+    ; save address of current map cell
+    ld      (Player.mapCellAddr), hl
+
+    ; save value of current map cell
+    ld      a, (hl)
+    ld      (Player.mapCellValue), a
 
     ret
 
-Player_Update_walkDXandDY:
+Player_Update_WalkDXandDY:
 
     ; set MegaROM page for LUT data
     ld      a, LUT_MEGAROM_PAGE

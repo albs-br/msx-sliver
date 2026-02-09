@@ -25,8 +25,11 @@ DrawColumn_SP:
     ret
 
 
-; HL: ROM start addr of column strip (16 bytes)
-; DE: NAMTBL_buffer addr for this column
+; Inputs:
+;   HL: ROM start addr of column strip (16 bytes)
+;       Columns + (0 * 16) ; first column
+;       Columns + (59 * 16) ; 59 = last column
+;   DE: NAMTBL_buffer addr for this column
 DrawColumn:
 
     ld      ixh, d ; save d

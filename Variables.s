@@ -28,16 +28,17 @@ NAMTBL_Buffer:  rb 512          ; buffer for first and second parts of screen
 
 	org     0xe000          ; fixed address for make it easier to track vars with the tcl script
 Player:
-    .X:             rw 1 ; X coord of player on map (0-65535)
-    .map_X:         equ $ - 1
-    .Y:             rw 1 ; Y coord of player on map (0-65535)
-    .map_Y:         equ $ - 1
-    .angle:         rw 1 ; 0-359 degrees, 0 is left (east), increments clockwise
-    .FoV_start:     rw 1 ; 0-359 degrees
-    .FoV_end:       rw 1 ; 0-359 degrees
-    .walk_DX:       rw 1 ; 8.8 fixed point
-    .walk_DY:       rw 1 ; 8.8 fixed point
-    .mapCell:       rw 1 ; real addr of current map cell position
+    .X:             rw 1        ; X coord of player on map (8.8 fixed point), integer part: 0-63
+    .map_X:         equ $ - 1   ; X player cell on map
+    .Y:             rw 1        ; Y coord of player on map (8.8 fixed point), integer part: 0-63
+    .map_Y:         equ $ - 1   ; Y player cell on map
+    .angle:         rw 1        ; 0-359 degrees, 0 is left (east), increments clockwise
+    .FoV_start:     rw 1        ; 0-359 degrees
+    .FoV_end:       rw 1        ; 0-359 degrees
+    .walk_DX:       rw 1        ; 8.8 fixed point
+    .walk_DY:       rw 1        ; 8.8 fixed point
+    .mapCellAddr:   rw 1        ; real addr of current map cell position
+    .mapCellValue:  rb 1        ; value of current map cell position
 
 
 TempData:       rb 8
