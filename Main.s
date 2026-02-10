@@ -156,6 +156,8 @@ MainLoop:
     call    Update_NAMTBL
 
 
+; jp $ ; debug
+
     jp  MainLoop
 
 

@@ -2,9 +2,26 @@
 Raycast:
 
 
+    ; ----- Init
+    xor     a
+    ld      (CurrentColumn), a
+
+    ; CurrentColumn = Player.angle - 32
+    ld      hl, (Player.angle)
+
+    ; res     7, l        ; reset lowest bit of L
+    ld      a, l
+    and     1111 1110 b
+    ld      l, a
+
+    ld      bc, -32
+    add     hl, bc
+    ld      (CurrentAngle), hl
+    ; TODO deal with angles < 0
 
 
 
+.loopColumns:
 
 ; formula to get correct block data:
 
@@ -21,12 +38,13 @@ Raycast:
     ; megarom page: 10111110 = 190
 
     ; --- each angle =>     (angle/2) * 64)                 =>      angle * 32
-    ld      hl, (Player.angle)
+    ld      hl, (CurrentAngle)
     
-    ; res     7, l        ; reset lowest bit of L
-    ld      a, l
-    and     1111 1110 b
-    ld      l, a
+    ; not necessary (is always 0)
+    ; ; res     7, l        ; reset lowest bit of L
+    ; ld      a, l
+    ; and     1111 1110 b
+    ; ld      l, a
     
     add     hl, hl
     add     hl, hl
@@ -199,6 +217,7 @@ Raycast:
     ; if wall not found, assume wall on last iteration
     dec     de ; must decrement de or value will be above limit (0-19)
     ;ret
+    ; TODO: maybe do render the smallest column here
 
 .is_wall:
 
@@ -213,7 +232,7 @@ Raycast:
     sbc     hl, de
 
 
- ld (TempWord_2), hl; debug
+;  ld (TempWord_2), hl; debug
  
     ; addr of column data for this tile:
     ; addr = PreCalcData_BaseAddr + 22 + (tiles * 2)
@@ -228,19 +247,55 @@ Raycast:
     ld      de, (PreCalcData_BaseAddr)      ; HL += (PreCalcData_BaseAddr)
     add     hl, de
 
+;  ld (TempWord_3), hl; debug
+
     ; HL = (HL)
     ld      e, (hl)
     inc     hl
     ld      d, (hl)
     ex      de, hl
 
- ld (TempWord_1), hl; debug
- ;jp $ ; debug
+;  ld (TempWord_1), hl; debug
+
+    ; DrawColumn Inputs:
+    ;   HL: ROM start addr of column strip (16 bytes)
+    ;       Columns + (0 * 16) ; first column
+    ;       Columns + (59 * 16) ; 59 = last column
+    ;   DE: NAMTBL_buffer addr for this column
 
     ; ld      hl, Columns + (0 * 16) ; first column
     ; ld      hl, Columns + (59 * 16) ; 59 = last column
-    ld      de, NAMTBL_Buffer + 0
+    push    hl
+        ld      a, (CurrentColumn)
+        ld      l, a
+        ld      h, 0
+        ld      de, NAMTBL_Buffer + 0
+        add     hl, de
+        ex      de, hl  ; DE = HL
+    pop     hl
     call    DrawColumn
 
+; jp $ ; debug
+
+    ; --------------------------- go to next colunn
+
+    ld      a, (CurrentColumn)
+    cp      31
+    jp      z, .return
+
+    ; CurrentColumn ++
+    inc     a
+    ld      (CurrentColumn), a
+
+    ; CurrentAngle += 2
+    ld      hl, (CurrentAngle)
+    inc     hl
+    inc     hl
+    ld      (CurrentAngle), hl
+    ; TODO deal with angles > 360
+
+    jp      .loopColumns
+
+.return:
 
     ret

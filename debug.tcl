@@ -18,5 +18,6 @@ ram_watch   add     0xe200      -type byte       -desc P.PCD_Page       -format 
 ram_watch   add     0xe201      -type word       -desc P.PCD_Addr       -format hex
 
 #ram_watch   add     0xe203      -type byte       -desc TmpByte_1        -format dec
-ram_watch   add     0xe204      -type word       -desc TmpWord_1        -format hex
-ram_watch   add     0xe206      -type word       -desc TmpWord_2        -format dec
+#ram_watch   add     0xe204      -type word       -desc TmpWord_1        -format hex
+#ram_watch   add     0xe206      -type word       -desc TmpWord_2        -format dec
+#ram_watch   add     0xe208      -type word       -desc TmpWord_3        -format hex

@@ -43,6 +43,10 @@ Player:
     .y_inside_cell: rb 1        ; 0-15
 
 
+CurrentColumn:      rb 1
+CurrentAngle:       rw 1
+
+
 	org     0xe200          ; fixed address for make it easier to track vars with the tcl script
 
 PreCalcData_MegaromPage:    rb 1
@@ -52,6 +56,7 @@ PreCalcData_BaseAddr:       rw 1
 TempByte_1:     rb 1
 TempWord_1:     rw 1
 TempWord_2:     rw 1
+TempWord_3:     rw 1
 
 TempData:       rb 8
 
