@@ -144,7 +144,7 @@ Execute:
 
 MainLoop:
 
-    call    Wait_Vblank
+    ; call    Wait_Vblank
 
 
     call    ReadInput

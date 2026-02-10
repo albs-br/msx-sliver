@@ -2,11 +2,13 @@
 Raycast:
 
 
-    ; ----- Init
+    ; ------------------- Init
+
     xor     a
     ld      (CurrentColumn), a
 
-    ; CurrentColumn = Player.angle - 32
+
+    ; --- CurrentAngle = Player.angle - 32
     ld      hl, (Player.angle)
 
     ; res     7, l        ; reset lowest bit of L
@@ -14,10 +16,23 @@ Raycast:
     and     1111 1110 b
     ld      l, a
 
+    ; if (angle < 32)
+    ld      de, 32
+    rst     BIOS_DCOMPR         ; Compare Contents Of HL & DE, Set Z-Flag IF (HL == DE), Set CY-Flag IF (HL < DE)
+    jp      c, .lessThan32
+
+    ; angle -= 32
     ld      bc, -32
     add     hl, bc
+    jp      .saveAngle
+    
+.lessThan32:    
+    ; angle = 360 - (32 - angle)        =>      angle = 360 - 32 + angle     =>      angle = 328 + angle
+    ld      bc, 328
+    add     hl, bc
+    
+.saveAngle:
     ld      (CurrentAngle), hl
-    ; TODO deal with angles < 0
 
 
 
@@ -192,13 +207,13 @@ Raycast:
         ; TODO: unroll loop 20x: 53 * 20 cycles max to find wall
         ld      a, (de)
 
-        ; ; sign extension (convert signed 8 bit int to signed 16 bit int)
-        ; ld      c, a
-        ; add     a, a
-        ; sbc     a, a
-        ; ld      b, a
-
+        ; sign extension (convert signed 8 bit int to signed 16 bit int)
         ld      c, a
+        add     a, a
+        sbc     a, a
+        ld      b, a
+
+        ;ld      c, a
 
         add     hl, bc                  ; BUG here: negative values in 8 bits cannot be coverted to 16 bits this way
 
@@ -215,9 +230,11 @@ Raycast:
     jp      nz, .loop
 
     ; if wall not found, assume wall on last iteration
-    dec     de ; must decrement de or value will be above limit (0-19)
-    ;ret
-    ; TODO: maybe do render the smallest column here
+    dec     de ; must decrement DE or value will be above limit (0-19)
+
+    ; ; if wall not found, render the smallest column
+    ; ld      hl, Columns + (59 * 16)	
+    ; jp      .drawColumn
 
 .is_wall:
 
@@ -232,7 +249,7 @@ Raycast:
     sbc     hl, de
 
 
-;  ld (TempWord_2), hl; debug
+ ld (TempWord_2), hl; debug
  
     ; addr of column data for this tile:
     ; addr = PreCalcData_BaseAddr + 22 + (tiles * 2)
@@ -247,7 +264,7 @@ Raycast:
     ld      de, (PreCalcData_BaseAddr)      ; HL += (PreCalcData_BaseAddr)
     add     hl, de
 
-;  ld (TempWord_3), hl; debug
+ ld (TempWord_3), hl; debug
 
     ; HL = (HL)
     ld      e, (hl)
@@ -255,7 +272,9 @@ Raycast:
     ld      d, (hl)
     ex      de, hl
 
-;  ld (TempWord_1), hl; debug
+ ld (TempWord_1), hl; debug
+
+.drawColumn:
 
     ; DrawColumn Inputs:
     ;   HL: ROM start addr of column strip (16 bytes)
@@ -291,8 +310,17 @@ Raycast:
     ld      hl, (CurrentAngle)
     inc     hl
     inc     hl
+
+    ; if (angle == 360) angle = 0
+    ld      de, 360
+    rst     BIOS_DCOMPR         ; Compare Contents Of HL & DE, Set Z-Flag IF (HL == DE), Set CY-Flag IF (HL < DE)
+    jr      z, .resetAngle
+    jp      .dontResetAngle
+
+.resetAngle:
+    ld      hl, 0
+.dontResetAngle:
     ld      (CurrentAngle), hl
-    ; TODO deal with angles > 360
 
     jp      .loopColumns
 
