@@ -153,7 +153,7 @@ MainLoop:
     call    RayCast
 
 
-    ; call    Update_NAMTBL
+    call    Update_NAMTBL
 
 
     jp  MainLoop

@@ -163,15 +163,23 @@ Raycast:
 ;--------
     ld      b, 0
 
-    ld      ixl, 20
+    ld      ixl, 20 ; max number of tiles
 .loop:
+
+        ; ----- Tiles delta calc and test if is wall
 
         ; HL points to current player cell on map
         ; DE points to precalc squares touched data for current angle and player position inside cell
 
         ; TODO: unroll loop 20x: 53 * 20 cycles max to find wall
         ld      a, (de)
-    
+
+        ; ; sign extension (convert signed 8 bit int to signed 16 bit int)
+        ; ld      c, a
+        ; add     a, a
+        ; sbc     a, a
+        ; ld      b, a
+
         ld      c, a
 
         add     hl, bc                  ; BUG here: negative values in 8 bits cannot be coverted to 16 bits this way
@@ -193,8 +201,7 @@ Raycast:
 
 .is_wall:
 
-    ; get distance and
-    ; call DrawColumn with it
+    ; ------- get distance and call DrawColumn with it
 
     ; number of tiles = DE - PreCalcData_BaseAddr - 2
     dec     de
@@ -206,12 +213,33 @@ Raycast:
 
 
  ld (TempWord_2), hl; debug
+ 
+    ; addr of column data for this tile:
+    ; addr = PreCalcData_BaseAddr + 20 + (tiles * 2)
+
+    ld      a, l    ; HL = tiles * 2
+    add     a, a
+    ld      l, a
+
+    ld      de, 20  ; HL += 20
+    add     hl, de
+
+    ld      de, (PreCalcData_BaseAddr)      ; HL += (PreCalcData_BaseAddr)
+    add     hl, de
+
+    ; HL = (HL)
+    ld      e, (hl)
+    inc     hl
+    ld      d, (hl)
+    ex      de, hl
+
+ ld (TempWord_1), hl; debug
  ;jp $ ; debug
 
     ; ld      hl, Columns + (0 * 16) ; first column
     ; ld      hl, Columns + (59 * 16) ; 59 = last column
-    ; ld      de, NAMTBL_Buffer + 30
-    ; call    DrawColumn
+    ld      de, NAMTBL_Buffer + 0
+    call    DrawColumn
 
 
     ret
