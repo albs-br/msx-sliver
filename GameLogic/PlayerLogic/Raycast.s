@@ -197,6 +197,7 @@ Raycast:
     jp      nz, .loop
 
     ; if wall not found, assume wall on last iteration
+    dec     de ; must decrement de or value will be above limit (0-19)
     ;ret
 
 .is_wall:
@@ -215,13 +216,13 @@ Raycast:
  ld (TempWord_2), hl; debug
  
     ; addr of column data for this tile:
-    ; addr = PreCalcData_BaseAddr + 20 + (tiles * 2)
+    ; addr = PreCalcData_BaseAddr + 22 + (tiles * 2)
 
     ld      a, l    ; HL = tiles * 2
     add     a, a
     ld      l, a
 
-    ld      de, 20  ; HL += 20
+    ld      de, 22  ; HL += 22
     add     hl, de
 
     ld      de, (PreCalcData_BaseAddr)      ; HL += (PreCalcData_BaseAddr)

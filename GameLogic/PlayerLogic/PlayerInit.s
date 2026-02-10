@@ -1,10 +1,10 @@
 PlayerInit:
 
-    ; place player on center of map
-    ld      hl, 0 + (31*256)
+    
+    ld      hl, 0 + (48*256)
     ld      (Player.X), hl
     
-    ld      hl, 0 + (31*256)
+    ld      hl, 0 + (48*256)
     ld      (Player.Y), hl
     
     ld      hl, 44
