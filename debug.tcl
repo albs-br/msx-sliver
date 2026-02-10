@@ -21,3 +21,5 @@ ram_watch   add     0xe201      -type word       -desc P.PCD_Addr       -format 
 ram_watch   add     0xe204      -type word       -desc TmpWord_1        -format hex
 ram_watch   add     0xe206      -type word       -desc TmpWord_2        -format dec
 ram_watch   add     0xe208      -type word       -desc TmpWord_3        -format hex
+
+ram_watch   add     0xE019      -type byte       -desc LastFps          -format dec

@@ -144,7 +144,36 @@ Execute:
 
 MainLoop:
 
-    ; call    Wait_Vblank
+    ; ---------------------------------------------------------------
+    ; FPS counter
+
+    ; if (Jiffy >= LastJiffy + 60) resetFpsCounter
+    ld      hl, (Jiffy_Saved)
+    ld      de, (BIOS_JIFFY)
+    call    BIOS_DCOMPR         ; Compare Contents Of HL & DE, Set Z-Flag IF (HL == DE), Set CY-Flag IF (HL < DE)
+    jp      nc, .doNotResetFpsCounter
+
+    ; save current Jiffy + 60
+    ex      de, hl  ; HL = DE
+    ld      de, 60
+    add     hl, de
+    ld      (Jiffy_Saved), hl
+
+    ; save last fps and reset fps counter
+    ld      a, (CurrentCounter)
+    ld      (LastFps), a
+
+    xor     a
+    ld      (CurrentCounter), a
+
+
+
+.doNotResetFpsCounter:
+
+    ld      hl, CurrentCounter
+    inc     (hl)
+
+    ; ---------------------------------------------------------------
 
 
     call    ReadInput

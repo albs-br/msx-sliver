@@ -213,7 +213,8 @@ Raycast:
         sbc     a, a
         ld      b, a
 
-        ;ld      c, a
+        ; ; without sign extension (not much faster)
+        ; ld      c, a
 
         add     hl, bc                  ; BUG here: negative values in 8 bits cannot be coverted to 16 bits this way
 

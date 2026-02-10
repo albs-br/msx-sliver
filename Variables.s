@@ -47,6 +47,16 @@ CurrentColumn:      rb 1
 CurrentAngle:       rw 1
 
 
+
+; fps counter
+Jiffy_Saved:        rw 1
+CurrentCounter:     rb 1
+LastFps:            rb 1
+
+
+
+
+
 	org     0xe200          ; fixed address for make it easier to track vars with the tcl script
 
 PreCalcData_MegaromPage:    rb 1
@@ -64,12 +74,6 @@ TempData:       rb 8
 
 ; Saved_SP:       rw 1
 
-; SavedJiffy:     rb 1
-
-
-
-
-; SPRATR_Buffer:  rb 128 ; TODO: table align it to use INC L instead of INC HL
 
 
 ;     org     0xc100 ; fixed addr to make it easier to track on tcl debug script
