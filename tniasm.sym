@@ -33,7 +33,7 @@ BIOS_TAPOOF: equ 0F0h ; last def. pass 3
 REG16SAV: equ 0FFEFh ; last def. pass 3
 BIOS_ROMSLT: equ 0FCC0h ; last def. pass 3
 BIOS_VOICEN: equ 0FB38h ; last def. pass 3
-CurrentCounter: equ 0E01Ch ; last def. pass 3
+CurrentCounter: equ 0E105h ; last def. pass 3
 BIOS_ERRTXT: equ 0F6B7h ; last def. pass 3
 BIOS_CPNCNT8: equ 0F93Bh ; last def. pass 3
 Map: equ 0C000h ; last def. pass 3
@@ -185,7 +185,7 @@ BIOS_MEMSIZ: equ 0F672h ; last def. pass 3
 Columns: equ 07C00h ; last def. pass 3
 BIOS_H_INDS: equ 0FE8Ah ; last def. pass 3
 TempWord_3: equ 0E208h ; last def. pass 3
-CurrentColumn: equ 0E017h ; last def. pass 3
+CurrentColumn: equ 0E100h ; last def. pass 3
 Update_NAMTBL: equ 043C5h ; last def. pass 3
 BIOS_H_FORM: equ 0FFACh ; last def. pass 3
 BIOS_EXPTBL: equ 0FCC1h ; last def. pass 3
@@ -340,7 +340,7 @@ BIOS_CHRGTR: equ 010h ; last def. pass 3
 BIOS_ONELIN: equ 0F6B9h ; last def. pass 3
 BIOS_QUEBAK: equ 0F971h ; last def. pass 3
 BIOS_RG1SAV: equ 0F3E0h ; last def. pass 3
-LastFps: equ 0E01Dh ; last def. pass 3
+LastFps: equ 0E106h ; last def. pass 3
 REG17SAV: equ 0FFF0h ; last def. pass 3
 BIOS_H_TOTE: equ 0FDBDh ; last def. pass 3
 BIOS_STRTMS: equ 099h ; last def. pass 3
@@ -561,7 +561,7 @@ BIOS_ARYTA2: equ 0F7B5h ; last def. pass 3
 BIOS_PRMPRV: equ 0F74Ch ; last def. pass 3
 REG13SAV: equ 0FFECh ; last def. pass 3
 BIOS_H_FILE: equ 0FD7Bh ; last def. pass 3
-CurrentAngle: equ 0E018h ; last def. pass 3
+CurrentAngle: equ 0E101h ; last def. pass 3
 BIOS_PATWRK: equ 0FC40h ; last def. pass 3
 BIOS_H_TRMN: equ 0FF61h ; last def. pass 3
 BIOS_H_STKE: equ 0FEDAh ; last def. pass 3
@@ -616,7 +616,7 @@ PlayerInit: equ 04525h ; last def. pass 3
 BIOS_NRDVRM: equ 0174h ; last def. pass 3
 BIOS_LPTSTT: equ 0A8h ; last def. pass 3
 BIOS_SETT32: equ 07Bh ; last def. pass 3
-Jiffy_Saved: equ 0E01Ah ; last def. pass 3
+Jiffy_Saved: equ 0E103h ; last def. pass 3
 Raycast.return: equ 04791h ; last def. pass 3
 BIOS_H_DSKO: equ 0FDEFh ; last def. pass 3
 BIOS_FILVRM: equ 056h ; last def. pass 3

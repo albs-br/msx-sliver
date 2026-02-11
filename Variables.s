@@ -45,6 +45,7 @@ Player:
     .oldY:          rw 1        ; copy of Y coord to make it possible revert moving after hitting a wall
 
 
+	org     0xe100          ; fixed address for make it easier to track vars with the tcl script
 CurrentColumn:      rb 1
 CurrentAngle:       rw 1
 

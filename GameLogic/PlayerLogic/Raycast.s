@@ -263,13 +263,13 @@ Raycast:
     ; ; if wall not found, assume wall on last iteration
     ; dec     de ; must decrement DE or value will be above limit (0-19)
 
-    ; ; if wall not found, render the smallest column
-    ; ld      hl, Columns + (59 * 16)	
-    ; jp      .drawColumn
-
-    ; if wall not found, render black column
-    ld      hl, BlackColumn
+    ; if wall not found, render the smallest column
+    ld      hl, Columns + (59 * 16)	
     jp      .drawColumn
+
+    ; ; if wall not found, render black column
+    ; ld      hl, BlackColumn
+    ; jp      .drawColumn
 
 .is_wall:
 
