@@ -194,48 +194,80 @@ Raycast:
     ld      hl, (Player.mapCellAddr)
 
 ;--------
-    ld      b, 0
+    ; ld      b, 0 ; not needed when using sign extension
 
-    ld      ixl, 20 ; max number of tiles
-.loop:
 
-        ; ----- Tiles delta calc and test if is wall
+    ; 20x unrolled code to avoid loop logic (21 * 20 * 32 = 13440 cycles saved)
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
+    
+    ; ---- old
 
-        ; HL points to current player cell on map
-        ; DE points to precalc squares touched data for current angle and player position inside cell
+;     ld      ixl, 20 ; max number of tiles
+; .loop:
 
-        ; TODO: unroll loop 20x: 53 * 20 cycles max to find wall
-        ld      a, (de)
+        ; ; ----- Tiles delta calc and test if is wall
 
-        ; sign extension (convert signed 8 bit int to signed 16 bit int)
-        ld      c, a
-        add     a, a
-        sbc     a, a
-        ld      b, a
+        ; ; HL points to current player cell on map
+        ; ; DE points to precalc squares touched data for current angle and player position inside cell
 
-        ; ; without sign extension (not much faster)
+        ; ; TODO: unroll loop 20x: 53 * 20 cycles max to find wall
+        ; ld      a, (de)
+
+        ; ; sign extension (convert signed 8 bit int to signed 16 bit int)
         ; ld      c, a
+        ; add     a, a
+        ; sbc     a, a
+        ; ld      b, a
 
-        add     hl, bc                  ; BUG here: negative values in 8 bits cannot be coverted to 16 bits this way
+        ; ; ; without sign extension (not much faster)
+        ; ; ld      c, a
 
-        ld      a, (hl)
+        ; add     hl, bc                  ; BUG here: negative values in 8 bits cannot be coverted to 16 bits this way
+
+        ; ld      a, (hl)
 
 
-        or      a
-        jr      nz, .is_wall        ; JR wont work here if destiny is over 127 bytes
-        ;call    nz, .is_not_empty ; map cell contains enemy/object <--- IMPROVE THIS PART
+        ; or      a
+        ; jr      nz, .is_wall        ; JR wont work here if destiny is over 127 bytes
+        ; ;call    nz, .is_not_empty ; map cell contains enemy/object <--- IMPROVE THIS PART
 
-        inc     de
+        ; inc     de
 
-    dec     ixl
-    jp      nz, .loop
+    ; dec     ixl
+    ; jp      nz, .loop
 
-    ; if wall not found, assume wall on last iteration
-    dec     de ; must decrement DE or value will be above limit (0-19)
+    ; ------------
+
+
+    ; ; if wall not found, assume wall on last iteration
+    ; dec     de ; must decrement DE or value will be above limit (0-19)
 
     ; ; if wall not found, render the smallest column
     ; ld      hl, Columns + (59 * 16)	
     ; jp      .drawColumn
+
+    ; if wall not found, render black column
+    ld      hl, BlackColumn
+    jp      .drawColumn
 
 .is_wall:
 
