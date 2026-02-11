@@ -77,8 +77,6 @@ ReadInput:
 
     add     hl, de
 
-    ; TODO: check if new cell is wall
-
     ld      (Player.Y), hl
 
 
@@ -88,6 +86,11 @@ ReadInput:
 
     add     hl, de
     ld      (Player.X), hl
+
+    ; check if new cell is wall
+    call    Player_Update_MapCell
+    or      a
+    jp      nz, .revertWalking
 
     jp      .walk_return
 
@@ -101,8 +104,6 @@ ReadInput:
     xor     a ; clear carry
     sbc     hl, de
 
-    ; TODO: check if new cell is wall
-
     ld      (Player.Y), hl
 
     ; ---- X -= DX
@@ -113,11 +114,29 @@ ReadInput:
     sbc     hl, de
     ld      (Player.X), hl
 
+    ; check if new cell is wall
+    call    Player_Update_MapCell
+    or      a
+    jp      nz, .revertWalking
+
     ; jp      .walk_return
 
 .walk_return:
 
-    call    Player_Update_MapCell
+    call    Player_Update_Old_X_and_Y
+    ; call    Player_Update_MapCell ; already updated
     call    Player_Update_InsideCell
 
     ret
+
+.revertWalking:
+
+    ld      hl, (Player.oldX)
+    ld      (Player.X), hl
+
+    ld      hl, (Player.oldY)
+    ld      (Player.Y), hl
+
+    call    Player_Update_MapCell
+
+    jp      .walk_return

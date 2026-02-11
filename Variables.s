@@ -41,6 +41,8 @@ Player:
     .mapCellValue:  rb 1        ; value of current map cell position
     .x_inside_cell: rb 1        ; 0-15
     .y_inside_cell: rb 1        ; 0-15
+    .oldX:          rw 1        ; copy of X coord to make it possible revert moving after hitting a wall
+    .oldY:          rw 1        ; copy of Y coord to make it possible revert moving after hitting a wall
 
 
 CurrentColumn:      rb 1

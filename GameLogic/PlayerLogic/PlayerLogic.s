@@ -4,6 +4,7 @@ Player_Update_AllFields:
     ; call    Player_Update_FoV
     call    Player_Update_WalkDXandDY
     call    Player_Update_InsideCell
+    call    Player_Update_Old_X_and_Y
 
     ret
 
@@ -24,6 +25,8 @@ Player_Update_InsideCell:
 
     ret
 
+; Output:
+;   A: value of current map cell
 Player_Update_MapCell:
 
     ; map_cell = (Y*64) + X
@@ -137,3 +140,11 @@ Player_Update_WalkDXandDY:
 
     ret
 
+Player_Update_Old_X_and_Y:
+    ld      hl, (Player.X)
+    ld      (Player.oldX), hl
+
+    ld      hl, (Player.Y)
+    ld      (Player.oldY), hl
+
+    ret
