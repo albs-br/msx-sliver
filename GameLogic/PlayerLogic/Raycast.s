@@ -11,10 +11,11 @@ Raycast:
     ; --- CurrentAngle = Player.angle - 32
     ld      hl, (Player.angle)
 
-    ; res     7, l        ; reset lowest bit of L
-    ld      a, l
-    and     1111 1110 b
-    ld      l, a
+    ; not necessary anymore, as only even angles are used
+    ; ; res     7, l        ; reset lowest bit of L
+    ; ld      a, l          
+    ; and     1111 1110 b
+    ; ld      l, a
 
     ; if (angle < 32)
     ld      de, 32
@@ -198,6 +199,7 @@ Raycast:
 
 
     ; 20x unrolled code to avoid loop logic (21 * 20 * 32 = 13440 cycles saved)
+    ; 71 cycles x 20 x 32 = 45440 cycles
     INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
     INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"
     INCLUDE "GameLogic/PlayerLogic/Raycast_Tiles.s"

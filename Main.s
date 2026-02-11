@@ -210,7 +210,7 @@ NAMTBL_Test:
     INCLUDE "Data/TilePatterns.s"
     INCLUDE "Data/TileColors.s"
 
-	
+Page_0x4000_size: equ $ - 0x4000 ; 0x123e bytes
     
     ; table aligned data
     ; 64 columns x 16 bytes = 512 bytes
