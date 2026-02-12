@@ -284,7 +284,7 @@ Raycast:
     sbc     hl, de
 
 
- ld (TempWord_2), hl; debug
+;  ld (TempWord_2), hl; debug
  
     ; addr of column data for this tile:
     ; addr = PreCalcData_BaseAddr + 22 + (tiles * 2)
@@ -299,7 +299,7 @@ Raycast:
     ld      de, (PreCalcData_BaseAddr)      ; HL += (PreCalcData_BaseAddr)
     add     hl, de
 
- ld (TempWord_3), hl; debug
+;  ld (TempWord_3), hl; debug
 
     ; HL = (HL)
     ld      e, (hl)
@@ -307,7 +307,30 @@ Raycast:
     ld      d, (hl)
     ex      de, hl
 
- ld (TempWord_1), hl; debug
+;  ld (TempWord_1), hl; debug
+
+    ; now HL contains addr of the table for fixing fisheye effect, pointed first entry for this column height
+
+    ; adjust to current screen column
+    ; HL += CurrentColumn * 2
+    ld      a, (CurrentColumn)
+    add     a, a
+    ld      e, a
+    ld      d, 0
+    add     hl, de
+
+
+    ; set MegaROM page for LUT data
+    ld      a, FIX_FISHEYE_TABLE_MEGAROM_PAGE
+    ld	    (Seg_P8000_SW), a
+
+    ; finally get the address of the ajusted colunn
+    ; HL = (HL)
+    ld      e, (hl)
+    inc     hl
+    ld      d, (hl)
+    ex      de, hl
+
 
 .drawColumn:
 

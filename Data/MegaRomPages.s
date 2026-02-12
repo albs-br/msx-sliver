@@ -12,6 +12,11 @@ LUT_MEGAROM_PAGE: equ 1
     INCLUDE "Data/LookUpTables/LUT_sin.s"
     INCLUDE "Data/LookUpTables/LUT_multiply.s"
 
+FIX_FISHEYE_TABLE_MEGAROM_PAGE: equ 1
+    INCLUDE "Data/FixFishEyeTable.s"
+
+MegaROM_Page_1_size: equ $ - 0x8000     ; 0x2500
+
 	ds PageSize - ($ - 0x8000), 255
 
 ; ----------------------------------------
