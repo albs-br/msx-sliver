@@ -25,3 +25,4 @@ MegaROM_Page_1_size: equ $ - 0x8000     ; 0x2500
 PRECALC_DATA_FIRST_MEGAROM_PAGE: equ 2
 
     INCLUDE "Data/PreCalcData.s"
+    INCLUDE "Data/PreCalcData_cont.s"
