@@ -1,0 +1,34 @@
+CosTable32:
+        dw      217     ; cosine for angle: -32 = 0,848048096156426
+        dw      221     ; cosine for angle: -30 = 0,8660254037844387
+        dw      226     ; cosine for angle: -28 = 0,882947592858927
+        dw      230     ; cosine for angle: -26 = 0,898794046299167
+        dw      233     ; cosine for angle: -24 = 0,9135454576426009
+        dw      237     ; cosine for angle: -22 = 0,9271838545667874
+        dw      240     ; cosine for angle: -20 = 0,9396926207859084
+        dw      243     ; cosine for angle: -18 = 0,9510565162951535
+        dw      246     ; cosine for angle: -16 = 0,9612616959383189
+        dw      248     ; cosine for angle: -14 = 0,9702957262759965
+        dw      250     ; cosine for angle: -12 = 0,9781476007338057
+        dw      252     ; cosine for angle: -10 = 0,984807753012208
+        dw      253     ; cosine for angle: -8 = 0,9902680687415704
+        dw      254     ; cosine for angle: -6 = 0,9945218953682733
+        dw      255     ; cosine for angle: -4 = 0,9975640502598242
+        dw      255     ; cosine for angle: -2 = 0,9993908270190958
+        dw      256     ; cosine for angle: 0 = 1
+        dw      255     ; cosine for angle: 2 = 0,9993908270190958
+        dw      255     ; cosine for angle: 4 = 0,9975640502598242
+        dw      254     ; cosine for angle: 6 = 0,9945218953682733
+        dw      253     ; cosine for angle: 8 = 0,9902680687415704
+        dw      252     ; cosine for angle: 10 = 0,984807753012208
+        dw      250     ; cosine for angle: 12 = 0,9781476007338057
+        dw      248     ; cosine for angle: 14 = 0,9702957262759965
+        dw      246     ; cosine for angle: 16 = 0,9612616959383189
+        dw      243     ; cosine for angle: 18 = 0,9510565162951535
+        dw      240     ; cosine for angle: 20 = 0,9396926207859084
+        dw      237     ; cosine for angle: 22 = 0,9271838545667874
+        dw      233     ; cosine for angle: 24 = 0,9135454576426009
+        dw      230     ; cosine for angle: 26 = 0,898794046299167
+        dw      226     ; cosine for angle: 28 = 0,882947592858927
+        dw      221     ; cosine for angle: 30 = 0,8660254037844387
+        

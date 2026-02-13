@@ -4,6 +4,9 @@
         ; DE points to precalc squares touched data for current angle and player position inside cell
 
         ld      a, (de)
+        ; TODO: maybe check for zero here 
+        ; (trade off: improve when there is zeros on the end of tiles delta
+        ; but worst performance for all cases (OR A, jr z, xxxx))
 
         ; sign extension (convert signed 8 bit int to signed 16 bit int)
         ld      c, a

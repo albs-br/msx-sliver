@@ -151,3 +151,26 @@ ShiftRight_DE:
         rr      l
     ex      de, hl
     ret
+
+DE_Times_BC:
+;Inputs:
+;     DE and BC are factors
+;Outputs:
+;     A is 0
+;     BC is not changed
+;     DEHL is the product
+;
+    ld hl,0
+    ld a,16
+Mul_Loop_1:
+    add hl,hl
+    ; rl e \ rl d      ; original
+    rl     e
+    rl     d
+    jr nc,$+6
+    add hl,bc
+    jr nc,$+3
+    inc de
+    dec a
+    jr nz,Mul_Loop_1
+    ret

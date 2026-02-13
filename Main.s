@@ -14,7 +14,7 @@ DEBUG:          equ 255             ; defines debug mode, value is irrelevant (c
     INCLUDE "Include/MsxConstants.s"
     INCLUDE "Include/CommonRoutines.s"
     
-    ; INCLUDE "Include/Math.s"
+    INCLUDE "Include/Math.s"
 
     INCLUDE "Graphics/LoadTiles.s"
     INCLUDE "Graphics/LoadTestScreen.s"
@@ -209,8 +209,9 @@ NAMTBL_Test:
     INCLUDE "Data/Palette.s"
     INCLUDE "Data/TilePatterns.s"
     INCLUDE "Data/TileColors.s"
+    INCLUDE "Data/CosTable32.s"
 
-Page_0x4000_size: equ $ - 0x4000 ; 0x123e bytes
+Page_0x4000_size: equ $ - 0x4000 ; 0x135f bytes
     
     ; table aligned data
     ; 64 columns x 16 bytes = 512 bytes

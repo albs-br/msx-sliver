@@ -301,13 +301,51 @@ Raycast:
 
 ;  ld (TempWord_3), hl; debug
 
-    ; HL = (HL)
+    ; DE = (HL)
     ld      e, (hl)
     inc     hl
     ld      d, (hl)
-    ex      de, hl
 
 ;  ld (TempWord_1), hl; debug
+
+;     ; --------- Fix fisheye effect by multiplying by cos of angle (using fixed point 8.8 math)
+
+;     ; DE contains the distance value (FP 8.8) [MUST COMMENT EX DE,HL ABOVE]
+
+;     ; BC = cos (player.angle - currentAngle)
+;     ld      a, (CurrentColumn)
+;     add     a, a ; mult by 2 (each value is a word)
+;     ld      h, 0
+;     ld      l, a
+;     ld      bc, CosTable32
+;     add     hl, bc
+;     ld      c, (hl)
+;     inc     hl
+;     ld      b, (hl)
+
+; ld (TempWord_1), de; debug
+; ld (TempWord_2), bc; debug
+
+
+;     call    DE_Times_BC ; multiply DE by BC, result in DEHL
+
+; ld (TempWord_3), de; debug
+
+; ; jp $
+
+;     ; get integer part, mult by 16 and add to Columns addr
+;     ex      de, hl ; HL = DE
+;     add     hl, hl
+;     add     hl, hl
+;     add     hl, hl
+;     add     hl, hl
+;     ld      de, Columns
+;     add     hl, de
+
+    ; --------- Fix fisheye effect by using a Look up table (original column height --> adjusted column height)
+    ; this method uses two math roundings, leading to a big difference when very close to a perpendicular wall
+
+    ex      de, hl        ; HL = DE
 
     ; now HL contains addr of the table for fixing fisheye effect, pointed first entry for this column height
 
@@ -320,7 +358,7 @@ Raycast:
     add     hl, de
 
 
-    ; set MegaROM page for LUT data
+    ; set MegaROM page for FIX_FISHEYE_TABLE data
     ld      a, FIX_FISHEYE_TABLE_MEGAROM_PAGE
     ld	    (Seg_P8000_SW), a
 
