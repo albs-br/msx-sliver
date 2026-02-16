@@ -263,13 +263,13 @@ Raycast:
     ; ; if wall not found, assume wall on last iteration
     ; dec     de ; must decrement DE or value will be above limit (0-19)
 
-    ; if wall not found, render the smallest column
-    ld      hl, Columns + (59 * 16)	
-    jp      .drawColumn
-
-    ; ; if wall not found, render black column
-    ; ld      hl, BlackColumn
+    ; ; if wall not found, render the smallest column
+    ; ld      hl, Columns + (59 * 16)	
     ; jp      .drawColumn
+
+    ; if wall not found, render black column
+    ld      hl, BlackColumn
+    jp      .drawColumn
 
 .is_wall:
 
@@ -309,6 +309,7 @@ Raycast:
 ;  ld (TempWord_1), hl; debug
 
 ;     ; --------- Fix fisheye effect by multiplying by cos of angle (using fixed point 8.8 math)
+;     ; (a bit slower)
 
 ;     ; DE contains the distance value (FP 8.8) [MUST COMMENT EX DE,HL ABOVE]
 
@@ -343,7 +344,7 @@ Raycast:
 ;     add     hl, de
 
     ; --------- Fix fisheye effect by using a Look up table (original column height --> adjusted column height)
-    ; this method uses two math roundings, leading to a big difference when very close to a perpendicular wall
+    ; (faster)
 
     ex      de, hl        ; HL = DE
 

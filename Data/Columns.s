@@ -72,4 +72,24 @@ Columns:
 
 
 BlackColumn:
-        db      255,    255,    255,    255,    255,    255,    255,    255,    255,      255,    255,    255,    255,   255,     255,    255
+        db      255,    255,    255,    255,    255,    255,    255,    254,    254,      255,    255,    255,    255,   255,     255,    255
+
+BlackColumn_Colors:
+        db      0x00
+        db      0x00
+        db      0x00
+        db      0x00
+        db      0xa0
+        db      0xa0
+        db      0xa0
+        db      0xa0
+
+BlackColumn_Colors_Reverted:
+        db      0xa0
+        db      0xa0
+        db      0xa0
+        db      0xa0
+        db      0x00
+        db      0x00
+        db      0x00
+        db      0x00

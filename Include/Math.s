@@ -152,6 +152,7 @@ ShiftRight_DE:
     ex      de, hl
     ret
 
+; NOTE: this can be unrolled with quite a good gain of performance
 DE_Times_BC:
 ;Inputs:
 ;     DE and BC are factors
@@ -171,6 +172,7 @@ Mul_Loop_1:
     add hl,bc
     jr nc,$+3
     inc de
+    
     dec a
     jr nz,Mul_Loop_1
     ret

@@ -95,4 +95,31 @@ LoadTiles:
 
 
 
+
+    ; ---- tiles for BlackColumn
+    ; load PATTBL (first part)
+    ld		hl, Tile_Patterns + (4 * 8) ; RAM address (source)
+    ld		de, PATTBL + (254 * 8)      ; VRAM address (destiny)
+    ld		bc, 8                       ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+    ; load COLTBL (first part)
+    ld      hl, BlackColumn_Colors
+    ld		de, COLTBL + (254 * 8)      ; RAM address (source)
+    ld      bc, 8                       ; Length of the area to be written
+    call    BIOS_LDIRVM                 ; Fill VRAM with value
+
+    ; load PATTBL (second part)
+    ld		hl, Tile_Patterns + (4 * 8)             ; RAM address (source)
+    ld		de, PATTBL + (256 * 8) + (254 * 8)      ; VRAM address (destiny)
+    ld		bc, 8                       ; Block length
+    call 	BIOS_LDIRVM        		    ; Block transfer to VRAM from memory
+
+    ; load COLTBL (second part)
+    ld      hl, BlackColumn_Colors_Reverted
+    ld		de, COLTBL + (256 * 8) + (254 * 8)      ; RAM address (source)
+    ld      bc, 8                       ; Length of the area to be written
+    call    BIOS_LDIRVM                 ; Fill VRAM with value
+
+
     ret
