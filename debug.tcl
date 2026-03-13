@@ -22,5 +22,10 @@ ram_watch   add     0xe204      -type word       -desc TmpWord_1        -format 
 ram_watch   add     0xe206      -type word       -desc TmpWord_2        -format dec
 ram_watch   add     0xe208      -type word       -desc TmpWord_3        -format dec
 
+ram_watch   add     0xe212      -type word       -desc AddrFixFishBase  -format hex
+
+
 ram_watch   add     0xE100      -type byte       -desc CurrentCol       -format dec
 ram_watch   add     0xE106      -type byte       -desc LastFps          -format dec
+
+

@@ -112,7 +112,7 @@ Execute:
     
     ; [debug]
     ; call    LoadTestScreen
-    call    LoadTestScreen_1
+    ; call    LoadTestScreen_1
 
 
     call    BIOS_ENASCR

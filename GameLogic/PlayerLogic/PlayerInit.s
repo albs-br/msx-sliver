@@ -17,7 +17,7 @@ PlayerInit:
     ld      hl, 15261
     ld      (Player.Y), hl
     
-    ld      hl, 24              ; only even numbers allowed
+    ld      hl, 46              ; only even numbers allowed
     ld      (Player.angle), hl
 
     call    Player_Update_AllFields

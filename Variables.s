@@ -73,7 +73,7 @@ TempWord_3:     rw 1
 
 TempData:       rb 8
 
-
+Debug_AddrFixFishBase: rw 1
 
 ; Saved_SP:       rw 1
 

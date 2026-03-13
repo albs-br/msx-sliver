@@ -308,67 +308,69 @@ Raycast:
 
 ;  ld (TempWord_1), hl; debug
 
-;     ; --------- Fix fisheye effect by multiplying by cos of angle (using fixed point 8.8 math)
-;     ; (a bit slower)
+    ; --------- Fix fisheye effect by multiplying by cos of angle (using fixed point 8.8 math)
+    ; (a bit slower)
 
-;     ; DE contains the distance value (FP 8.8) [MUST COMMENT EX DE,HL ABOVE]
+    ; DE contains the distance value (FP 8.8) [MUST COMMENT EX DE,HL ABOVE]
 
-;     ; BC = cos (player.angle - currentAngle)
-;     ld      a, (CurrentColumn)
-;     add     a, a ; mult by 2 (each value is a word)
-;     ld      h, 0
-;     ld      l, a
-;     ld      bc, CosTable32
-;     add     hl, bc
-;     ld      c, (hl)
-;     inc     hl
-;     ld      b, (hl)
-
-; ld (TempWord_1), de; debug
-; ld (TempWord_2), bc; debug
-
-
-;     call    DE_Times_BC ; multiply DE by BC, result in DEHL
-
-; ld (TempWord_3), de; debug
-
-; ; jp $
-
-;     ; get integer part, mult by 16 and add to Columns addr
-;     ex      de, hl ; HL = DE
-;     add     hl, hl
-;     add     hl, hl
-;     add     hl, hl
-;     add     hl, hl
-;     ld      de, Columns
-;     add     hl, de
-
-    ; --------- Fix fisheye effect by using a Look up table (original column height --> adjusted column height)
-    ; (faster)
-
-    ex      de, hl        ; HL = DE
-
-    ; now HL contains addr of the table for fixing fisheye effect, pointed first entry for this column height
-
-    ; adjust to current screen column
-    ; HL += CurrentColumn * 2
+    ; BC = cos (player.angle - currentAngle)
     ld      a, (CurrentColumn)
-    add     a, a
-    ld      e, a
-    ld      d, 0
+    add     a, a ; mult by 2 (each value is a word)
+    ld      h, 0
+    ld      l, a
+    ld      bc, CosTable32
+    add     hl, bc
+    ld      c, (hl)
+    inc     hl
+    ld      b, (hl)
+
+;ld (TempWord_1), de; debug
+;ld (TempWord_2), bc; debug
+
+
+    call    DE_Times_BC ; multiply DE by BC, result in DEHL
+
+;ld (TempWord_3), de; debug
+
+; jp $
+
+    ; get integer part, mult by 16 and add to Columns addr
+    ex      de, hl ; HL = DE
+    add     hl, hl
+    add     hl, hl
+    add     hl, hl
+    add     hl, hl
+    ld      de, Columns
     add     hl, de
 
+;     ; --------- Fix fisheye effect by using a Look up table (original column height --> adjusted column height)
+;     ; (faster)
 
-    ; set MegaROM page for FIX_FISHEYE_TABLE data
-    ld      a, FIX_FISHEYE_TABLE_MEGAROM_PAGE
-    ld	    (Seg_P8000_SW), a
+;     ex      de, hl        ; HL = DE
 
-    ; finally get the address of the ajusted colunn
-    ; HL = (HL)
-    ld      e, (hl)
-    inc     hl
-    ld      d, (hl)
-    ex      de, hl
+;     ; now HL contains addr of the table for fixing fisheye effect, pointed first entry for this column height
+;     ; ld      (Debug_AddrFixFishBase), hl ; debug
+
+;     ; adjust to current screen column
+;     ; HL += CurrentColumn * 2
+;     ld      a, (CurrentColumn)
+;     add     a, a
+;     ld      e, a
+;     ld      d, 0
+;     add     hl, de
+
+; ;jp $ ; debug
+
+;     ; set MegaROM page for FIX_FISHEYE_TABLE data
+;     ld      a, FIX_FISHEYE_TABLE_MEGAROM_PAGE
+;     ld	    (Seg_P8000_SW), a
+
+;     ; finally get the address of the ajusted colunn
+;     ; HL = (HL)
+;     ld      e, (hl)
+;     inc     hl
+;     ld      d, (hl)
+;     ex      de, hl
 
 
 .drawColumn:
